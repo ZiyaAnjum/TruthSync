@@ -1,0 +1,11 @@
+# Replace the placeholders with GitHub usernames of the teammates (A, B, C).
+# Changes to protected files require the team leader's review.
+/RULES.md       @LEADER_USERNAME
+/CLAUDE.md      @LEADER_USERNAME
+/AGENTS.md      @LEADER_USERNAME
+/docs/PRD.md    @LEADER_USERNAME
+/docs/contracts/ @MEMBER_A_USERNAME @MEMBER_B_USERNAME @MEMBER_C_USERNAME
+/frontend/      @MEMBER_A_USERNAME
+/backend/       @MEMBER_B_USERNAME
+/backend/app/verification/ @MEMBER_C_USERNAME
+/backend/evaluation/       @MEMBER_C_USERNAME
