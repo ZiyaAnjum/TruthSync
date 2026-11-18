@@ -140,3 +140,4 @@ export async function extractClaims(answerText: string): Promise<Claim[]> {
 
   return postProcessClaims(output.claims, validated.answer_text);
 }
+
