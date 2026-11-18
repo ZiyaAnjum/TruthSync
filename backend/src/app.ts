@@ -2,6 +2,7 @@ import "./preload";
 import express, { Request, Response, NextFunction } from "express";
 import cors, { CorsOptions } from "cors";
 import evidenceRouter from "./routes/evidence";
+import verifyRouter from "./routes/verify";
 
 // Initialize Express app
 const app = express();
@@ -68,6 +69,9 @@ app.get("/api/health", (_req: Request, res: Response) => {
 
 // Evidence retrieval endpoint (Task B-04 / FR-03)
 app.use("/api/evidence", evidenceRouter);
+
+// Verification and Pipeline endpoints (Task B-03 / FR-01, FR-09)
+app.use("/api", verifyRouter);
 
 // 404 handler for unknown routes
 app.use((_req: Request, res: Response) => {
