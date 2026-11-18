@@ -7,7 +7,7 @@
     "dev": "tsx watch src/server.ts",
     "start": "tsx src/server.ts",
     "typecheck": "tsc --noEmit",
-    "test": "tsx src/services/evidenceService.test.ts"
+    "test": "tsx src/services/evidenceService.test.ts && tsx src/services/scoringService.test.ts"
   },
   "keywords": [],
   "author": "",
