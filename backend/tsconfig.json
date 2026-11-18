@@ -6,7 +6,11 @@
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "noEmit": true
+    "noEmit": true,
+    "paths": {
+      "zod": ["./node_modules/zod"],
+      "@anthropic-ai/sdk": ["./node_modules/@anthropic-ai/sdk"]
+    }
   },
   "include": ["src/**/*", "prompts/**/*"]
 }

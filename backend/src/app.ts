@@ -1,5 +1,7 @@
+import "./preload";
 import express, { Request, Response, NextFunction } from "express";
 import cors, { CorsOptions } from "cors";
+import evidenceRouter from "./routes/evidence";
 
 // Initialize Express app
 const app = express();
@@ -63,6 +65,9 @@ app.get("/api/health", (_req: Request, res: Response) => {
     version: "1.0.0",
   });
 });
+
+// Evidence retrieval endpoint (Task B-04 / FR-03)
+app.use("/api/evidence", evidenceRouter);
 
 // 404 handler for unknown routes
 app.use((_req: Request, res: Response) => {
