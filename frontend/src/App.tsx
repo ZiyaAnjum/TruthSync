@@ -1,38 +1,36 @@
+import { useState } from 'react'
 import { PageLayout } from './components/PageLayout'
-import { StatusBadge } from './components/StatusBadge'
-import type { DisplayStatus } from './lib/status'
+import { HomeScreen } from './screens/HomeScreen'
 
 function App() {
-  const statuses: DisplayStatus[] = [
-    'Supported',
-    'Outdated',
-    'Conflicting',
-    'Insufficient Evidence',
-    'Not Checked',
-  ]
+  const [showProgressPlaceholder, setShowProgressPlaceholder] = useState(false)
 
   return (
-    <PageLayout>
-      <section
-        aria-labelledby="preview-heading"
-        className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
-      >
-        <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-slate-500">
-          A-01 preview
-        </p>
-        <h2 id="preview-heading" className="text-2xl font-bold text-slate-950">
-          Design system preview
-        </h2>
-        <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-600">
-          Temporary preview. Later tasks will replace this page with the product screens.
-        </p>
-        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {statuses.map((status) => (
-            <StatusBadge key={status} status={status} />
-          ))}
-        </div>
-      </section>
-    </PageLayout>
+    <>
+      <div className={showProgressPlaceholder ? 'hidden' : ''}>
+        <HomeScreen onVerify={() => setShowProgressPlaceholder(true)} />
+      </div>
+
+      {showProgressPlaceholder && (
+        <PageLayout>
+          <section
+            aria-labelledby="progress-placeholder-heading"
+            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
+          >
+            <h1 id="progress-placeholder-heading" className="text-2xl font-bold text-slate-950">
+              Progress screen comes in task A-03
+            </h1>
+            <button
+              type="button"
+              onClick={() => setShowProgressPlaceholder(false)}
+              className="mt-6 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-900 outline-none hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+            >
+              Back
+            </button>
+          </section>
+        </PageLayout>
+      )}
+    </>
   )
 }
 
