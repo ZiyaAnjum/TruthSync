@@ -3,12 +3,15 @@ import { PageLayout } from './components/PageLayout'
 import { HomeScreen } from './screens/HomeScreen'
 import { ProgressScreen } from './screens/ProgressScreen'
 import { ReportScreen } from './screens/ReportScreen'
+import { ClaimDetailScreen } from './screens/ClaimDetailScreen'
 import { startMockProgress } from './lib/mockProgress'
 import { getMockReport } from './lib/mockReport'
+import type { ClaimReport } from '../../shared/schemas'
 import type { ProgressStatus } from './lib/progress'
 
 function App() {
   const [screen, setScreen] = useState<'home' | 'progress' | 'report' | 'claim-detail'>('home')
+  const [selectedClaimId, setSelectedClaimId] = useState<string | null>(null)
   const [status, setStatus] = useState<ProgressStatus>({
     id: 'demo-progress',
     stage: 'queued',
@@ -22,6 +25,9 @@ function App() {
       ? requestedReportVariant
       : undefined
   const mockReport = getMockReport(reportVariant)
+  const selectedClaimReport: ClaimReport | undefined = mockReport.claims.find(
+    ({ claim }) => claim.id === selectedClaimId,
+  )
 
   function stopMockProgress() {
     cancelProgressRef.current?.()
@@ -74,12 +80,22 @@ function App() {
       {screen === 'report' && (
         <ReportScreen
           report={mockReport}
-          onSelectClaim={() => setScreen('claim-detail')}
+          onSelectClaim={(claimId) => {
+            setSelectedClaimId(claimId)
+            setScreen('claim-detail')
+          }}
           onBack={returnToHome}
         />
       )}
 
-      {screen === 'claim-detail' && (
+      {screen === 'claim-detail' && selectedClaimReport && (
+        <ClaimDetailScreen
+          claimReport={selectedClaimReport}
+          onBack={() => setScreen('report')}
+        />
+      )}
+
+      {screen === 'claim-detail' && !selectedClaimReport && (
         <PageLayout>
           <section
             aria-labelledby="claim-detail-placeholder-heading"
@@ -89,14 +105,14 @@ function App() {
               id="claim-detail-placeholder-heading"
               className="text-2xl font-bold text-slate-950"
             >
-              Claim Detail comes in task A-05
+              Claim not found
             </h1>
             <button
               type="button"
               onClick={() => setScreen('report')}
               className="mt-6 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-base font-bold text-slate-900 outline-none hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
             >
-              Back to report
+              Back
             </button>
           </section>
         </PageLayout>
