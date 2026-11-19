@@ -21,3 +21,22 @@ body,
   min-height: 100%;
   margin: 0;
 }
+
+:where(a, button, input, textarea, select, summary, [role="button"], [role="link"]):focus-visible {
+  outline: 3px solid #111827 !important;
+  outline-offset: 3px;
+}
+
+button[class~="border-slate-300"] {
+  border-color: #64748b;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}

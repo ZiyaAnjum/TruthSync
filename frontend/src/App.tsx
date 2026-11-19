@@ -6,8 +6,16 @@ import { ReportScreen } from './screens/ReportScreen'
 import { ClaimDetailScreen } from './screens/ClaimDetailScreen'
 import { startMockProgress } from './lib/mockProgress'
 import { getMockReport } from './lib/mockReport'
+import { getApiErrorMessage } from './lib/errors'
 import type { ClaimReport } from '../../shared/schemas'
 import type { ProgressStatus } from './lib/progress'
+
+const screenTitles = {
+  home: 'Check an AI-generated answer | TruthSync',
+  progress: 'Checking your answer | TruthSync',
+  report: 'Verification report | TruthSync',
+  'claim-detail': 'Claim detail | TruthSync',
+} as const
 
 function App() {
   const [screen, setScreen] = useState<'home' | 'progress' | 'report' | 'claim-detail'>('home')
@@ -51,13 +59,29 @@ function App() {
 
     const shouldFail = new URLSearchParams(window.location.search).get('mock') === 'error'
     cancelProgressRef.current = startMockProgress((nextStatus) => {
-      setStatus(nextStatus)
+      setStatus(
+        nextStatus.stage === 'failed'
+          ? { ...nextStatus, error: getApiErrorMessage('SEARCH_FAILED') }
+          : nextStatus,
+      )
       if (nextStatus.stage === 'done') {
         setScreen('report')
         stopMockProgress()
       }
     }, { fail: shouldFail })
   }
+
+  useEffect(() => {
+    document.title = screenTitles[screen]
+    const activeHeading = Array.from(
+      document.querySelectorAll<HTMLElement>('main h1'),
+    ).find((heading) => heading.getClientRects().length > 0)
+
+    if (activeHeading) {
+      activeHeading.tabIndex = -1
+      activeHeading.focus()
+    }
+  }, [screen])
 
   useEffect(() => {
     return () => stopMockProgress()

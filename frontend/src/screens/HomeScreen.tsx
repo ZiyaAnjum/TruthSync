@@ -16,6 +16,11 @@ export function HomeScreen({ onVerify }: HomeScreenProps) {
   const isOverLimit = excessCharacters > 0
   const isEmpty = answer.trim().length === 0
   const isDisabled = isEmpty || isOverLimit
+  const answerMessage = isOverLimit
+    ? `Answer is too long. Shorten it by ${excessCharacters} characters.`
+    : isEmpty
+      ? 'Enter an answer to enable verification.'
+      : null
 
   function handleVerify() {
     if (isDisabled) {
@@ -49,7 +54,11 @@ export function HomeScreen({ onVerify }: HomeScreenProps) {
             value={answer}
             onChange={(event) => setAnswer(event.target.value)}
             rows={9}
-            aria-describedby="answer-counter answer-limit-message"
+            aria-describedby={
+              answerMessage
+                ? 'answer-counter answer-limit-message'
+                : 'answer-counter'
+            }
             aria-invalid={isOverLimit}
             className="mt-2 block min-h-52 w-full resize-y rounded-xl border border-slate-300 px-3 py-3 text-base leading-6 text-slate-950 shadow-sm outline-none placeholder:text-slate-400 focus:border-blue-700 focus:ring-2 focus:ring-blue-700/20"
             placeholder="Paste the AI-generated answer here..."
@@ -70,13 +79,15 @@ export function HomeScreen({ onVerify }: HomeScreenProps) {
               Use an example answer
             </button>
           </div>
-          {isOverLimit && (
+          {answerMessage && (
             <p
               id="answer-limit-message"
               aria-live="polite"
-              className="mt-2 text-sm font-semibold text-red-800"
+              className={`mt-2 text-sm font-semibold ${
+                isOverLimit ? 'text-red-800' : 'text-slate-700'
+              }`}
             >
-              Answer is too long. Shorten it by {excessCharacters} characters.
+              {answerMessage}
             </p>
           )}
         </div>
