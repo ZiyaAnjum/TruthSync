@@ -3,6 +3,7 @@ import { PageLayout } from './components/PageLayout'
 import { HomeScreen } from './screens/HomeScreen'
 import { ProgressScreen } from './screens/ProgressScreen'
 import { startMockProgress } from './lib/mockProgress'
+import { getMockReport } from './lib/mockReport'
 import type { ProgressStatus } from './lib/progress'
 
 function App() {
@@ -14,6 +15,10 @@ function App() {
     error: null,
   })
   const cancelProgressRef = useRef<(() => void) | null>(null)
+  const reportVariant = new URLSearchParams(window.location.search).get('report') === 'many'
+    ? 'many'
+    : undefined
+  const mockReport = getMockReport(reportVariant)
 
   function stopMockProgress() {
     cancelProgressRef.current?.()
@@ -70,7 +75,8 @@ function App() {
             className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
           >
             <h1 id="report-placeholder-heading" className="text-2xl font-bold text-slate-950">
-              Report screen comes in task A-04
+              Demo report loaded: {mockReport.claims.length} claim(s), overall freshness score{' '}
+              {mockReport.overall_freshness_score}
             </h1>
             <button
               type="button"
