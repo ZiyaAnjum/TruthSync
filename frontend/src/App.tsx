@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from 'react'
 import { PageLayout } from './components/PageLayout'
 import { HomeScreen } from './screens/HomeScreen'
 import { ProgressScreen } from './screens/ProgressScreen'
+import { ReportScreen } from './screens/ReportScreen'
 import { startMockProgress } from './lib/mockProgress'
 import { getMockReport } from './lib/mockReport'
 import type { ProgressStatus } from './lib/progress'
 
 function App() {
-  const [screen, setScreen] = useState<'home' | 'progress' | 'report'>('home')
+  const [screen, setScreen] = useState<'home' | 'progress' | 'report' | 'claim-detail'>('home')
   const [status, setStatus] = useState<ProgressStatus>({
     id: 'demo-progress',
     stage: 'queued',
@@ -69,21 +70,31 @@ function App() {
       )}
 
       {screen === 'report' && (
+        <ReportScreen
+          report={mockReport}
+          onSelectClaim={() => setScreen('claim-detail')}
+          onBack={returnToHome}
+        />
+      )}
+
+      {screen === 'claim-detail' && (
         <PageLayout>
           <section
-            aria-labelledby="report-placeholder-heading"
-            className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
+            aria-labelledby="claim-detail-placeholder-heading"
+            className="mx-auto min-w-0 max-w-3xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
           >
-            <h1 id="report-placeholder-heading" className="text-2xl font-bold text-slate-950">
-              Demo report loaded: {mockReport.claims.length} claim(s), overall freshness score{' '}
-              {mockReport.overall_freshness_score}
+            <h1
+              id="claim-detail-placeholder-heading"
+              className="text-2xl font-bold text-slate-950"
+            >
+              Claim Detail comes in task A-05
             </h1>
             <button
               type="button"
-              onClick={returnToHome}
-              className="mt-6 rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm font-bold text-slate-900 outline-none hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+              onClick={() => setScreen('report')}
+              className="mt-6 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-base font-bold text-slate-900 outline-none hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
             >
-              Back to Home
+              Back to report
             </button>
           </section>
         </PageLayout>
