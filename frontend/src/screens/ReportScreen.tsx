@@ -1,5 +1,7 @@
 import { PageLayout } from '../components/PageLayout'
 import { ClaimTable } from '../components/ClaimTable'
+import { CorrectedAnswer } from '../components/CorrectedAnswer'
+import { RiskList } from '../components/RiskList'
 import type { Report } from '../../../shared/schemas'
 
 type ReportScreenProps = {
@@ -18,11 +20,11 @@ export function ReportScreen({
   return (
     <PageLayout>
       <section aria-labelledby="report-heading" className="min-w-0">
-        <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7">
-          <h1 id="report-heading" className="text-2xl font-bold text-slate-950">
-            Verification report
-          </h1>
-          <div className="mt-5">
+        <h1 id="report-heading" className="mb-6 text-2xl font-bold text-slate-950">
+          Verification report
+        </h1>
+        <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)]">
+          <div className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7 lg:col-start-2 lg:row-start-1">
             {hasCheckableClaims ? (
               <>
                 <p className="text-sm font-semibold text-slate-700">
@@ -39,10 +41,18 @@ export function ReportScreen({
               </p>
             )}
           </div>
-        </div>
 
-        <div className="mt-6">
-          <ClaimTable claims={report.claims} onSelect={onSelectClaim} />
+          <div className="min-w-0 lg:col-start-1 lg:row-start-1">
+            <ClaimTable claims={report.claims} onSelect={onSelectClaim} />
+          </div>
+
+          <div className="min-w-0 lg:col-start-1 lg:row-start-2">
+            <RiskList risks={report.risks} claims={report.claims} />
+          </div>
+
+          <div className="min-w-0 lg:col-start-2 lg:row-start-2">
+            <CorrectedAnswer correction={report.correction} />
+          </div>
         </div>
 
         <button

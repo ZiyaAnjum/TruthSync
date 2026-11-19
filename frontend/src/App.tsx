@@ -16,9 +16,11 @@ function App() {
     error: null,
   })
   const cancelProgressRef = useRef<(() => void) | null>(null)
-  const reportVariant = new URLSearchParams(window.location.search).get('report') === 'many'
-    ? 'many'
-    : undefined
+  const requestedReportVariant = new URLSearchParams(window.location.search).get('report')
+  const reportVariant =
+    requestedReportVariant === 'many' || requestedReportVariant === 'clean'
+      ? requestedReportVariant
+      : undefined
   const mockReport = getMockReport(reportVariant)
 
   function stopMockProgress() {

@@ -3,6 +3,22 @@ import type { Report, ClaimReport } from '../../../shared/schemas'
 import { sampleReport } from '../../../shared/fixtures'
 
 export function getMockReport(variant?: string): Report {
+  if (variant === 'clean') {
+    return {
+      ...sampleReport,
+      claims: sampleReport.claims.map((claim) => ({
+        ...claim,
+        conflict: {
+          ...claim.conflict,
+          verdict: 'current',
+          conflict_found: false,
+        },
+      })),
+      risks: [],
+      correction: null,
+    }
+  }
+
   if (variant !== 'many') {
     return sampleReport
   }
