@@ -1,5 +1,7 @@
 import path from "path";
+import fs from "fs";
 import Module from "module";
+import dotenv from "dotenv";
 
 const backendNodeModules = path.resolve(__dirname, "../node_modules");
 
@@ -18,5 +20,19 @@ if (typeof Module._initPaths === "function") {
   // @ts-ignore
   Module._initPaths();
 }
+
+// Load environment variables from backend/.env or root .env
+const envCandidates = [
+  path.resolve(__dirname, "../.env"),
+  path.resolve(process.cwd(), "backend/.env"),
+  path.resolve(process.cwd(), ".env"),
+];
+for (const envPath of envCandidates) {
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    break;
+  }
+}
+dotenv.config();
 
 export {};
