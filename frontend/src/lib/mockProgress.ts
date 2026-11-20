@@ -1,6 +1,7 @@
 // TEMPORARY MOCK. Simulates backend progress. Replaced by the real API in the API-connection step.
 
 import type { ProgressStatus } from './progress'
+import { getApiErrorMessage } from './errors'
 
 type MockProgressOptions = {
   fail?: boolean
@@ -33,13 +34,24 @@ export function startMockProgress(
   schedule({ id: 'demo-progress', stage: 'predicting_expiry', percent: 30, error: null })
   schedule({ id: 'demo-progress', stage: 'retrieving_evidence', percent: 50, error: null })
 
-  if (options.fail) {
+  const mockMode = new URLSearchParams(window.location.search).get('mock')
+
+  if (options.fail || mockMode === 'error' || mockMode === 'ratelimit' || mockMode === 'timeout') {
+    let errorMessage = 'Search service is not responding. Please try again.'
+    if (mockMode === 'ratelimit') {
+      errorMessage = getApiErrorMessage('RATE_LIMIT')
+    } else if (mockMode === 'timeout') {
+      errorMessage = getApiErrorMessage('TIMEOUT')
+    } else if (mockMode === 'error') {
+      errorMessage = getApiErrorMessage('SEARCH_FAILED')
+    }
+
     const failedTimer = window.setTimeout(() => {
       send({
         id: 'demo-progress',
         stage: 'failed',
         percent: 50,
-        error: 'Search service is not responding. Please try again.',
+        error: errorMessage,
       })
     }, 6000)
     timers.push(failedTimer)

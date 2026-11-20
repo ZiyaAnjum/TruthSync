@@ -88,6 +88,9 @@ export function HomeScreen({ onVerify }: HomeScreenProps) {
                 Use an example answer
               </button>
             </div>
+            <p className="mt-2 text-sm text-slate-600">
+              Illustrative example only. Not current product information.
+            </p>
             {answerMessage && (
               <p
                 id="answer-limit-message"

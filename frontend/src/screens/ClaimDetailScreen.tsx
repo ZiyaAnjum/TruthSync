@@ -1,6 +1,7 @@
 import { PageLayout } from '../components/PageLayout'
 import { SourceList } from '../components/SourceList'
 import { TruthPassport } from '../components/TruthPassport'
+import { isDemoMode } from '../lib/dataSource'
 import type { ClaimReport } from '../../../shared/schemas'
 
 type ClaimDetailScreenProps = {
@@ -42,6 +43,15 @@ export function ClaimDetailScreen({
   return (
     <PageLayout>
       <article className="mx-auto min-w-0 max-w-4xl">
+        {isDemoMode && (
+          <p className="mb-4 inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800">
+            <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true" fill="none">
+              <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="2" />
+              <path d="M10 9v5M10 6v.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+            Demo data (mock)
+          </p>
+        )}
         <header className="detail-heading mb-6 min-w-0 rounded-2xl p-5 sm:p-7">
           <h1 className="break-words text-2xl font-bold leading-8 text-white sm:text-3xl">
             {claimReport.claim.text}

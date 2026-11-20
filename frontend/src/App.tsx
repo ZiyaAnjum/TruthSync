@@ -4,9 +4,7 @@ import { HomeScreen } from './screens/HomeScreen'
 import { ProgressScreen } from './screens/ProgressScreen'
 import { ReportScreen } from './screens/ReportScreen'
 import { ClaimDetailScreen } from './screens/ClaimDetailScreen'
-import { startMockProgress } from './lib/mockProgress'
-import { getMockReport } from './lib/mockReport'
-import { getApiErrorMessage } from './lib/errors'
+import { getReport, startVerification } from './lib/dataSource'
 import type { ClaimReport } from '../../shared/schemas'
 import type { ProgressStatus } from './lib/progress'
 
@@ -29,10 +27,15 @@ function App() {
   const cancelProgressRef = useRef<(() => void) | null>(null)
   const requestedReportVariant = new URLSearchParams(window.location.search).get('report')
   const reportVariant =
-    requestedReportVariant === 'many' || requestedReportVariant === 'clean'
+    requestedReportVariant === 'many' ||
+    requestedReportVariant === 'clean' ||
+    requestedReportVariant === 'eight' ||
+    requestedReportVariant === 'nocheck' ||
+    requestedReportVariant === 'undated' ||
+    requestedReportVariant === 'nosources'
       ? requestedReportVariant
       : undefined
-  const mockReport = getMockReport(reportVariant)
+  const mockReport = getReport(reportVariant)
   const selectedClaimReport: ClaimReport | undefined = mockReport.claims.find(
     ({ claim }) => claim.id === selectedClaimId,
   )
@@ -57,18 +60,13 @@ function App() {
     })
     setScreen('progress')
 
-    const shouldFail = new URLSearchParams(window.location.search).get('mock') === 'error'
-    cancelProgressRef.current = startMockProgress((nextStatus) => {
-      setStatus(
-        nextStatus.stage === 'failed'
-          ? { ...nextStatus, error: getApiErrorMessage('SEARCH_FAILED') }
-          : nextStatus,
-      )
+    cancelProgressRef.current = startVerification(_answerText, _question, (nextStatus) => {
+      setStatus(nextStatus)
       if (nextStatus.stage === 'done') {
         setScreen('report')
         stopMockProgress()
       }
-    }, { fail: shouldFail })
+    })
   }
 
   useEffect(() => {
