@@ -1,0 +1,533 @@
+{
+  "ans-01-c1": [
+    {
+      "claim_id": "ans-01-c1",
+      "url": "https://www.apple.com/newsroom/2023/09/apple-debuts-iphone-15/",
+      "title": "Apple debuts iPhone 15 and iPhone 15 Plus",
+      "snippet": "Apple today announced iPhone 15 and iPhone 15 Plus on September 12, 2023.",
+      "published_date": "2023-09-12",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-01-c1",
+      "url": "https://www.theverge.com/2023/9/12/apple-event-iphone-15-announcement",
+      "title": "Apple Event: iPhone 15 officially revealed",
+      "snippet": "Apple unveiled the iPhone 15 lineup on September 12, 2023 during its live keynote.",
+      "published_date": "2023-09-12",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-01-c2": [
+    {
+      "claim_id": "ans-01-c2",
+      "url": "https://www.apple.com/iphone-15/specs/",
+      "title": "iPhone 15 - Technical Specifications",
+      "snippet": "iPhone 15 features the A16 Bionic chip with 5-core GPU and 48MP main camera sensor.",
+      "published_date": "2023-09-15",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-01-c3": [
+    {
+      "claim_id": "ans-01-c3",
+      "url": "https://www.apple.com/iphone-15/specs/",
+      "title": "iPhone 15 - Technical Specifications",
+      "snippet": "Available capacities: 128GB, 256GB, and 512GB storage.",
+      "published_date": "2023-09-15",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-02-c1": [
+    {
+      "claim_id": "ans-02-c1",
+      "url": "https://www.nintendo.com/switch-oled-launch",
+      "title": "Nintendo Switch OLED Model Launched Worldwide",
+      "snippet": "The new Nintendo Switch OLED model launched globally on October 8, 2021.",
+      "published_date": "2021-10-08",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-02-c2": [
+    {
+      "claim_id": "ans-02-c2",
+      "url": "https://www.nintendo.com/switch/tech-specs/",
+      "title": "Nintendo Switch OLED Technical Specifications",
+      "snippet": "Includes a 7-inch OLED screen, 64 GB internal storage, and wide adjustable stand.",
+      "published_date": "2021-10-08",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-03-c1": [
+    {
+      "claim_id": "ans-03-c1",
+      "url": "https://www.python.org/downloads/release/python-3120/",
+      "title": "Python 3.12.0 Final Release",
+      "snippet": "Python 3.12.0 was officially released as final on October 2, 2023.",
+      "published_date": "2023-10-02",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-03-c2": [
+    {
+      "claim_id": "ans-03-c2",
+      "url": "https://docs.python.org/3/faq/general.html",
+      "title": "General Python FAQ",
+      "snippet": "Python was created in the early 1990s by Guido van Rossum at CWI in the Netherlands.",
+      "published_date": "2023-01-01",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-04-c1": [
+    {
+      "claim_id": "ans-04-c1",
+      "url": "https://blog.playstation.com/2020/09/16/playstation-5-launches-in-november/",
+      "title": "PlayStation 5 launches globally in November",
+      "snippet": "PS5 will launch on November 12, 2020 in North America, Japan, and Australia.",
+      "published_date": "2020-09-16",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-04-c2": [
+    {
+      "claim_id": "ans-04-c2",
+      "url": "https://blog.playstation.com/2020/11/09/ps5-the-ultimate-faq/",
+      "title": "PS5: The Ultimate FAQ",
+      "snippet": "PS5 is equipped with a custom 825GB ultra-high speed internal SSD.",
+      "published_date": "2020-11-09",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-05-c1": [
+    {
+      "claim_id": "ans-05-c1",
+      "url": "https://github.com/about",
+      "title": "About GitHub",
+      "snippet": "GitHub was founded in February 2008 by Chris Wanstrath, PJ Hyett, and Tom Preston-Werner.",
+      "published_date": "2023-01-01",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-05-c2": [
+    {
+      "claim_id": "ans-05-c2",
+      "url": "https://blogs.microsoft.com/blog/2018/10/26/microsoft-completes-github-acquisition/",
+      "title": "Microsoft completes acquisition of GitHub",
+      "snippet": "Microsoft Corp on October 26, 2018 announced it has closed its acquisition of GitHub.",
+      "published_date": "2018-10-26",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-05-c3": [
+    {
+      "claim_id": "ans-05-c3",
+      "url": "https://github.blog/2021-11-03-next-chapter-github/",
+      "title": "Thank you, GitHub - Nat Friedman",
+      "snippet": "Thomas Dohmke will succeed me as GitHub CEO effective November 15, 2021.",
+      "published_date": "2021-11-03",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-06-c1": [
+    {
+      "claim_id": "ans-06-c1",
+      "url": "https://store.steampowered.com/news/app/1675200/view/3112552086339343385",
+      "title": "Steam Deck Launch Day",
+      "snippet": "Valve announced that Steam Deck is officially shipping on February 25, 2022.",
+      "published_date": "2022-02-25",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-06-c2": [
+    {
+      "claim_id": "ans-06-c2",
+      "url": "https://store.steampowered.com/steamdeck/oled",
+      "title": "Steam Deck OLED",
+      "snippet": "Valve introduced Steam Deck OLED in November 2023 with a 90Hz HDR OLED display.",
+      "published_date": "2023-11-09",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-07-c1": [
+    {
+      "claim_id": "ans-07-c1",
+      "url": "https://www.reuters.com/technology/twitter-ceo-2021",
+      "title": "Twitter appoints Parag Agrawal as CEO",
+      "snippet": "Parag Agrawal was appointed as the new Chief Executive Officer of Twitter in November 2021.",
+      "published_date": "2021-11-29",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-07-c1",
+      "url": "https://www.cnbc.com/2022/10/27/elon-musk-terminates-parag-agrawal.html",
+      "title": "Elon Musk fires CEO Parag Agrawal",
+      "snippet": "Elon Musk has completed his acquisition of Twitter and terminated CEO Parag Agrawal.",
+      "published_date": "2022-10-27",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-07-c1",
+      "url": "https://www.bbc.com/news/business-65814580",
+      "title": "Linda Yaccarino begins role as CEO of Twitter / X",
+      "snippet": "Linda Yaccarino has officially taken over as CEO of Twitter under owner Elon Musk.",
+      "published_date": "2023-06-05",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-07-c2": [
+    {
+      "claim_id": "ans-07-c2",
+      "url": "https://www.loc.gov/item/lcwaN0017124/",
+      "title": "Twitter History - Library of Congress",
+      "snippet": "Twitter was established in March 2006 by Jack Dorsey, Biz Stone, and Noah Glass.",
+      "published_date": "2013-01-01",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-08-c1": [
+    {
+      "claim_id": "ans-08-c1",
+      "url": "https://www.tesla.com/blog/35000-tesla-model-3",
+      "title": "$35,000 Tesla Model 3 Available",
+      "snippet": "Standard range Model 3 was made available for $35,000 in early 2019.",
+      "published_date": "2019-02-28",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-08-c1",
+      "url": "https://www.reuters.com/business/autos-transportation/tesla-model-3-refresh-price-2024",
+      "title": "Tesla updates Model 3 base price to $38,990",
+      "snippet": "Tesla updated its US pricing with the refreshed Model 3 starting at $38,990.",
+      "published_date": "2024-01-10",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-08-c2": [
+    {
+      "claim_id": "ans-08-c2",
+      "url": "https://www.tesla.com/model3/specs",
+      "title": "Tesla Model 3 Specifications",
+      "snippet": "Standard Model 3 configuration utilizes rear-wheel drive powertrain.",
+      "published_date": "2024-01-10",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-09-c1": [
+    {
+      "claim_id": "ans-09-c1",
+      "url": "https://www.apple.com/newsroom/2021/09/apple-unveils-new-ipad-9th-gen/",
+      "title": "Apple unveils iPad 9th gen at $329",
+      "snippet": "The new iPad 9th generation starts at $329 with 64GB storage.",
+      "published_date": "2021-09-14",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-09-c1",
+      "url": "https://www.theverge.com/2024/5/7/apple-discontinues-ipad-9th-gen",
+      "title": "Apple discontinues iPad 9th generation",
+      "snippet": "Apple officially discontinued the iPad 9th generation following the release of updated iPads in May 2024.",
+      "published_date": "2024-05-07",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-09-c2": [
+    {
+      "claim_id": "ans-09-c2",
+      "url": "https://support.apple.com/kb/SP849",
+      "title": "iPad 9th Generation Tech Specs",
+      "snippet": "Equipped with the A13 Bionic chip with Neural Engine.",
+      "published_date": "2021-09-24",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-10-c1": [
+    {
+      "claim_id": "ans-10-c1",
+      "url": "https://help.netflix.com/plans-and-pricing-archive",
+      "title": "Netflix Plans and Pricing 2022",
+      "snippet": "The Basic plan was available for $9.99 per month with ad-free streaming.",
+      "published_date": "2022-01-14",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-10-c1",
+      "url": "https://www.variety.com/2023/digital/news/netflix-kills-basic-ad-free-plan-us-uk-1235674312/",
+      "title": "Netflix phases out Basic ad-free plan",
+      "snippet": "Netflix has discontinued its $9.99 Basic ad-free subscription tier for new and returning members.",
+      "published_date": "2023-07-19",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-11-c1": [
+    {
+      "claim_id": "ans-11-c1",
+      "url": "https://www.cnbc.com/2019/11/12/disney-plus-launch-price.html",
+      "title": "Disney Plus launches for $6.99 to $7.99",
+      "snippet": "Disney Plus initially launched at $6.99 and later $7.99 for commercial-free streaming.",
+      "published_date": "2019-11-12",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-11-c1",
+      "url": "https://www.theverge.com/2023/10/12/disney-plus-ad-free-price-hike-13-99",
+      "title": "Disney Plus raises ad-free price to $13.99",
+      "snippet": "The ad-free Disney Plus tier has increased to $13.99 per month in the US.",
+      "published_date": "2023-10-12",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-11-c2": [
+    {
+      "claim_id": "ans-11-c2",
+      "url": "https://thewaltdisneycompany.com/disney-launches-in-the-us/",
+      "title": "Disney Launches in the US",
+      "snippet": "The Walt Disney Company announced the launch of Disney+ on November 12, 2019.",
+      "published_date": "2019-11-12",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-12-c1": [
+    {
+      "claim_id": "ans-12-c1",
+      "url": "https://www.aboutamazon.com/news/company-news/jeff-bezos-letter-to-employees-2021",
+      "title": "Andy Jassy to become Amazon CEO",
+      "snippet": "Jeff Bezos transitioned to Executive Chair, and Andy Jassy became Amazon CEO in Q3 2021.",
+      "published_date": "2021-02-02",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-12-c1",
+      "url": "https://www.reuters.com/business/andy-jassy-takes-over-amazon-ceo-2021-07-05/",
+      "title": "Andy Jassy officially takes over as Amazon CEO",
+      "snippet": "Andy Jassy officially assumed the role of CEO of Amazon on July 5, 2021.",
+      "published_date": "2021-07-05",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-12-c2": [
+    {
+      "claim_id": "ans-12-c2",
+      "url": "https://www.aboutamazon.com/our-company",
+      "title": "Amazon History",
+      "snippet": "Amazon was founded by Jeff Bezos in Bellevue, Washington, and incorporated in July 1994.",
+      "published_date": "2022-01-01",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-13-c1": [
+    {
+      "claim_id": "ans-13-c1",
+      "url": "https://blogs.windows.com/windowsexperience/2015/07/29/windows-10-available-now/",
+      "title": "Windows 10 available now",
+      "snippet": "Windows 10 launched worldwide in July 2015.",
+      "published_date": "2015-07-29",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-13-c1",
+      "url": "https://blogs.windows.com/windowsexperience/2021/10/04/windows-11-available-today/",
+      "title": "Windows 11 is available today",
+      "snippet": "Microsoft released Windows 11 on October 5, 2021 as its newest flagship operating system.",
+      "published_date": "2021-10-04",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-13-c2": [
+    {
+      "claim_id": "ans-13-c2",
+      "url": "https://news.microsoft.com/2014/09/30/microsoft-unveils-windows-10/",
+      "title": "Microsoft unveils Windows 10",
+      "snippet": "Microsoft unveiled Windows 10 on September 30, 2014 during a San Francisco event.",
+      "published_date": "2014-09-30",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-14-c1": [
+    {
+      "claim_id": "ans-14-c1",
+      "url": "https://blog.playstation.com/2022/03/29/all-new-playstation-plus-launches-in-june/",
+      "title": "All-new PlayStation Plus launches in June",
+      "snippet": "PlayStation Plus Essential was originally priced at $59.99 for 12 months in the US.",
+      "published_date": "2022-03-29",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-14-c1",
+      "url": "https://blog.playstation.com/2023/08/30/playstation-plus-monthly-games-for-september/",
+      "title": "PlayStation Plus 12-month subscription price update",
+      "snippet": "Beginning September 6, 2023, PlayStation Plus Essential 12-month tier increases to $79.99.",
+      "published_date": "2023-08-30",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-14-c2": [
+    {
+      "claim_id": "ans-14-c2",
+      "url": "https://www.playstation.com/ps-plus/",
+      "title": "PlayStation Plus Tiers",
+      "snippet": "Choose from three membership options: Essential, Extra, and Premium.",
+      "published_date": "2023-09-01",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-15-c1": [
+    {
+      "claim_id": "ans-15-c1",
+      "url": "https://www.reuters.com/technology/twitter-ceo-2021",
+      "title": "Twitter appoints Parag Agrawal as CEO",
+      "snippet": "Twitter named Parag Agrawal CEO in late 2021.",
+      "published_date": "2021-11-29",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-15-c1",
+      "url": "https://www.bbc.com/news/business-65814580",
+      "title": "Linda Yaccarino appointed Twitter/X CEO",
+      "snippet": "Linda Yaccarino is the active CEO of X / Twitter, succeeding prior leadership.",
+      "published_date": "2023-06-05",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-15-c2": [
+    {
+      "claim_id": "ans-15-c2",
+      "url": "https://help.twitter.com/verification-legacy",
+      "title": "Twitter Legacy Verification",
+      "snippet": "Twitter previously provided free blue checkmarks to notable public figures.",
+      "published_date": "2021-05-20",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-15-c2",
+      "url": "https://help.twitter.com/managing-your-account/about-x-verified-accounts",
+      "title": "About X Premium Verification",
+      "snippet": "Blue checkmarks require a paid subscription to X Premium and are no longer provided free.",
+      "published_date": "2023-04-20",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-15-c3": [
+    {
+      "claim_id": "ans-15-c3",
+      "url": "https://www.reuters.com/technology/twitter-rebrands-x-2023-07-24/",
+      "title": "Twitter rebrands to X",
+      "snippet": "Elon Musk officially rebranded Twitter as X on July 24, 2023.",
+      "published_date": "2023-07-24",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-16-c1": [
+    {
+      "claim_id": "ans-16-c1",
+      "url": "https://www.reuters.com/business/andy-jassy-takes-over-amazon-ceo-2021-07-05/",
+      "title": "Andy Jassy officially takes over as Amazon CEO",
+      "snippet": "Andy Jassy officially took over as Amazon CEO on July 5, 2021.",
+      "published_date": "2021-07-05",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-16-c2": [
+    {
+      "claim_id": "ans-16-c2",
+      "url": "https://www.aboutamazon.com/news/retail/amazon-prime-price-update-2018",
+      "title": "Amazon Prime Price 2018",
+      "snippet": "Amazon Prime annual membership was set to $119 in 2018.",
+      "published_date": "2018-04-26",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-16-c2",
+      "url": "https://www.aboutamazon.com/news/retail/amazon-prime-price-change-2022",
+      "title": "Amazon Prime Price Increases to $139",
+      "snippet": "Amazon increased the price of an annual Prime membership to $139 in February 2022.",
+      "published_date": "2022-02-03",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-16-c3": [
+    {
+      "claim_id": "ans-16-c3",
+      "url": "https://www.amazon.com/prime",
+      "title": "Amazon Prime Benefits",
+      "snippet": "Prime members receive fast, free delivery on millions of items.",
+      "published_date": "2023-01-01",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-17-c1": [
+    {
+      "claim_id": "ans-17-c1",
+      "url": "https://www.reuters.com/business/autos-transportation/tesla-model-3-refresh-price-2024",
+      "title": "Tesla updates Model 3 base price to $38,990",
+      "snippet": "Tesla updated its US pricing with the refreshed Model 3 starting at $38,990.",
+      "published_date": "2024-01-10",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-17-c2": [
+    {
+      "claim_id": "ans-17-c2",
+      "url": "https://www.theverge.com/2020/7/1/tesla-fsd-price-hike",
+      "title": "Tesla FSD price changes",
+      "snippet": "Tesla raised the price of Full Self-Driving capability from $7,000 to $8,000 in 2020.",
+      "published_date": "2020-07-01",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-17-c3": [
+    {
+      "claim_id": "ans-17-c3",
+      "url": "https://www.tesla.com/blog/model-3-unveil",
+      "title": "Model 3 Unveil",
+      "snippet": "Elon Musk unveiled the Model 3 prototype on March 31, 2016 in Hawthorne, California.",
+      "published_date": "2016-03-31",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-18-c1": [
+    {
+      "claim_id": "ans-18-c1",
+      "url": "https://www.apple.com/newsroom/2021/09/apple-unveils-iphone-13-pro/",
+      "title": "Apple unveils iPhone 13 Pro",
+      "snippet": "iPhone 13 Pro was announced at $999 in September 2021.",
+      "published_date": "2021-09-14",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-18-c1",
+      "url": "https://www.theverge.com/2022/9/7/apple-discontinues-iphone-13-pro",
+      "title": "Apple discontinues iPhone 13 Pro upon iPhone 14 launch",
+      "snippet": "Apple has officially discontinued new direct sales of the iPhone 13 Pro and Pro Max.",
+      "published_date": "2022-09-07",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-18-c2": [
+    {
+      "claim_id": "ans-18-c2",
+      "url": "https://www.apple.com/newsroom/2021/09/ios-15-is-available-today/",
+      "title": "iOS 15 is available today",
+      "snippet": "Apple released iOS 15 in September 2021.",
+      "published_date": "2021-09-20",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    },
+    {
+      "claim_id": "ans-18-c2",
+      "url": "https://www.apple.com/newsroom/2023/09/ios-17-is-available-today/",
+      "title": "iOS 17 is available today",
+      "snippet": "Apple released iOS 17 in September 2023, succeeding earlier versions.",
+      "published_date": "2023-09-18",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ],
+  "ans-18-c3": [
+    {
+      "claim_id": "ans-18-c3",
+      "url": "https://support.apple.com/kb/SP852",
+      "title": "iPhone 13 Pro - Technical Specifications",
+      "snippet": "Super Retina XDR display with ProMotion technology for adaptive refresh rates up to 120Hz.",
+      "published_date": "2021-09-24",
+      "retrieved_at": "2026-11-19T00:00:00Z"
+    }
+  ]
+}
+

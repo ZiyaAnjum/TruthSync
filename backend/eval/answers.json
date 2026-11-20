@@ -1,0 +1,448 @@
+[
+  {
+    "id": "ans-01",
+    "label_status": "REVIEWED",
+    "answer_text": "The Apple iPhone 15 was officially announced on September 12, 2023. It features the Apple A16 Bionic processor and has a 48-megapixel main camera sensor. The base model launched with 128GB of internal storage.",
+    "expected_claims": [
+      {
+        "id": "ans-01-c1",
+        "text": "The Apple iPhone 15 was announced on September 12, 2023",
+        "expected_verdict": "current",
+        "entity": "Apple iPhone 15",
+        "original_sentence": "The Apple iPhone 15 was officially announced on September 12, 2023."
+      },
+      {
+        "id": "ans-01-c2",
+        "text": "The Apple iPhone 15 features the Apple A16 Bionic processor",
+        "expected_verdict": "current",
+        "entity": "Apple iPhone 15 processor",
+        "original_sentence": "It features the Apple A16 Bionic processor and has a 48-megapixel main camera sensor."
+      },
+      {
+        "id": "ans-01-c3",
+        "text": "The Apple iPhone 15 base model launched with 128GB of internal storage",
+        "expected_verdict": "current",
+        "entity": "Apple iPhone 15 storage",
+        "original_sentence": "The base model launched with 128GB of internal storage."
+      }
+    ],
+    "notes": "Fully current specs and release date for iPhone 15."
+  },
+  {
+    "id": "ans-02",
+    "label_status": "REVIEWED",
+    "answer_text": "The Nintendo Switch OLED model launched worldwide on October 8, 2021. It features a 7-inch vibrant OLED screen and 64GB of internal storage. The system includes an adjustable wide stand for tabletop mode.",
+    "expected_claims": [
+      {
+        "id": "ans-02-c1",
+        "text": "The Nintendo Switch OLED model launched worldwide on October 8, 2021",
+        "expected_verdict": "current",
+        "entity": "Nintendo Switch OLED",
+        "original_sentence": "The Nintendo Switch OLED model launched worldwide on October 8, 2021."
+      },
+      {
+        "id": "ans-02-c2",
+        "text": "The Nintendo Switch OLED features a 7-inch OLED screen and 64GB storage",
+        "expected_verdict": "current",
+        "entity": "Nintendo Switch OLED specs",
+        "original_sentence": "It features a 7-inch vibrant OLED screen and 64GB of internal storage."
+      }
+    ],
+    "notes": "Fully current Nintendo Switch OLED facts."
+  },
+  {
+    "id": "ans-03",
+    "label_status": "REVIEWED",
+    "answer_text": "Python 3.12 was released as the stable release on October 2, 2023. It introduced isolated subinterpreters and improved error tracebacks. Python was originally conceived and designed by Guido van Rossum.",
+    "expected_claims": [
+      {
+        "id": "ans-03-c1",
+        "text": "Python 3.12 was released as stable on October 2, 2023",
+        "expected_verdict": "current",
+        "entity": "Python 3.12 release",
+        "original_sentence": "Python 3.12 was released as the stable release on October 2, 2023."
+      },
+      {
+        "id": "ans-03-c2",
+        "text": "Python was originally conceived by Guido van Rossum",
+        "expected_verdict": "current",
+        "entity": "Python creator",
+        "original_sentence": "Python was originally conceived and designed by Guido van Rossum."
+      }
+    ],
+    "notes": "Fully current Python facts."
+  },
+  {
+    "id": "ans-04",
+    "label_status": "REVIEWED",
+    "answer_text": "The Sony PlayStation 5 was released in North America on November 12, 2020. The standard console includes an ultra-high speed 825GB solid state drive. It supports ray tracing hardware acceleration.",
+    "expected_claims": [
+      {
+        "id": "ans-04-c1",
+        "text": "Sony PlayStation 5 was released in North America on November 12, 2020",
+        "expected_verdict": "current",
+        "entity": "PlayStation 5 release",
+        "original_sentence": "The Sony PlayStation 5 was released in North America on November 12, 2020."
+      },
+      {
+        "id": "ans-04-c2",
+        "text": "The standard PS5 includes an 825GB solid state drive",
+        "expected_verdict": "current",
+        "entity": "PlayStation 5 storage",
+        "original_sentence": "The standard console includes an ultra-high speed 825GB solid state drive."
+      }
+    ],
+    "notes": "Fully current PS5 hardware specifications."
+  },
+  {
+    "id": "ans-05",
+    "label_status": "REVIEWED",
+    "answer_text": "GitHub was founded in 2008 by Tom Preston-Werner, Chris Wanstrath, and PJ Hyett. Microsoft completed its acquisition of GitHub in October 2018. Thomas Dohmke became the Chief Executive Officer of GitHub in November 2021.",
+    "expected_claims": [
+      {
+        "id": "ans-05-c1",
+        "text": "GitHub was founded in 2008",
+        "expected_verdict": "current",
+        "entity": "GitHub founding",
+        "original_sentence": "GitHub was founded in 2008 by Tom Preston-Werner, Chris Wanstrath, and PJ Hyett."
+      },
+      {
+        "id": "ans-05-c2",
+        "text": "Microsoft completed its acquisition of GitHub in October 2018",
+        "expected_verdict": "current",
+        "entity": "Microsoft GitHub acquisition",
+        "original_sentence": "Microsoft completed its acquisition of GitHub in October 2018."
+      },
+      {
+        "id": "ans-05-c3",
+        "text": "Thomas Dohmke became CEO of GitHub in November 2021",
+        "expected_verdict": "current",
+        "entity": "GitHub CEO succession",
+        "original_sentence": "Thomas Dohmke became the Chief Executive Officer of GitHub in November 2021."
+      }
+    ],
+    "notes": "Fully current corporate history and active leadership for GitHub."
+  },
+  {
+    "id": "ans-06",
+    "label_status": "REVIEWED",
+    "answer_text": "The Steam Deck was released by Valve on February 25, 2022. It runs SteamOS 3.0 based on Arch Linux. Valve later introduced an OLED edition in November 2023 with a 90Hz refresh rate display.",
+    "expected_claims": [
+      {
+        "id": "ans-06-c1",
+        "text": "Steam Deck was released by Valve on February 25, 2022",
+        "expected_verdict": "current",
+        "entity": "Steam Deck release",
+        "original_sentence": "The Steam Deck was released by Valve on February 25, 2022."
+      },
+      {
+        "id": "ans-06-c2",
+        "text": "Valve introduced a Steam Deck OLED edition in November 2023 with a 90Hz display",
+        "expected_verdict": "current",
+        "entity": "Steam Deck OLED",
+        "original_sentence": "Valve later introduced an OLED edition in November 2023 with a 90Hz refresh rate display."
+      }
+    ],
+    "notes": "Fully current Steam Deck specifications and timeline."
+  },
+  {
+    "id": "ans-07",
+    "label_status": "REVIEWED",
+    "answer_text": "Twitter is led by CEO Parag Agrawal. The company was founded in March 2006 by Jack Dorsey and Noah Glass. Twitter was publicly listed on the New York Stock Exchange in 2013.",
+    "expected_claims": [
+      {
+        "id": "ans-07-c1",
+        "text": "Twitter is led by CEO Parag Agrawal",
+        "expected_verdict": "outdated",
+        "entity": "Twitter CEO",
+        "original_sentence": "Twitter is led by CEO Parag Agrawal."
+      },
+      {
+        "id": "ans-07-c2",
+        "text": "Twitter was founded in March 2006",
+        "expected_verdict": "current",
+        "entity": "Twitter founding",
+        "original_sentence": "The company was founded in March 2006 by Jack Dorsey and Noah Glass."
+      }
+    ],
+    "notes": "Single outdated fact: Parag Agrawal is no longer CEO."
+  },
+  {
+    "id": "ans-08",
+    "label_status": "REVIEWED",
+    "answer_text": "The Tesla Model 3 base edition starts at an original price of $35,000 in the United States. The vehicle includes rear-wheel drive. Standard equipment includes automated emergency braking and lane keeping assist.",
+    "expected_claims": [
+      {
+        "id": "ans-08-c1",
+        "text": "Tesla Model 3 base edition starts at $35,000 in the US",
+        "expected_verdict": "outdated",
+        "entity": "Tesla Model 3 price",
+        "original_sentence": "The Tesla Model 3 base edition starts at an original price of $35,000 in the United States."
+      },
+      {
+        "id": "ans-08-c2",
+        "text": "The base Tesla Model 3 includes rear-wheel drive",
+        "expected_verdict": "current",
+        "entity": "Tesla Model 3 drivetrain",
+        "original_sentence": "The vehicle includes rear-wheel drive."
+      }
+    ],
+    "notes": "Single outdated fact: Model 3 is no longer $35k (starts at $38,990)."
+  },
+  {
+    "id": "ans-09",
+    "label_status": "REVIEWED",
+    "answer_text": "Apple's entry-level iPad 9th generation starts at $329. It is powered by the Apple A13 Bionic chip. The tablet features a 10.2-inch Retina display with True Tone technology.",
+    "expected_claims": [
+      {
+        "id": "ans-09-c1",
+        "text": "Apple sells the iPad 9th generation starting at $329",
+        "expected_verdict": "outdated",
+        "entity": "iPad 9th gen status",
+        "original_sentence": "Apple's entry-level iPad 9th generation starts at $329."
+      },
+      {
+        "id": "ans-09-c2",
+        "text": "The iPad 9th generation is powered by the A13 Bionic chip",
+        "expected_verdict": "current",
+        "entity": "iPad 9th gen chip",
+        "original_sentence": "It is powered by the Apple A13 Bionic chip."
+      }
+    ],
+    "notes": "Single outdated fact: iPad 9th gen was discontinued by Apple in May 2024."
+  },
+  {
+    "id": "ans-10",
+    "label_status": "REVIEWED",
+    "answer_text": "Netflix offers a Basic plan with no ads for $9.99 per month. Subscribers can watch standard definition video on one screen at a time. The service allows streaming downloads on one supported device.",
+    "expected_claims": [
+      {
+        "id": "ans-10-c1",
+        "text": "Netflix offers a Basic plan with no ads for $9.99 per month",
+        "expected_verdict": "outdated",
+        "entity": "Netflix Basic plan",
+        "original_sentence": "Netflix offers a Basic plan with no ads for $9.99 per month."
+      }
+    ],
+    "notes": "Single outdated fact: Netflix phased out and eliminated the Basic ad-free plan in 2023-2024."
+  },
+  {
+    "id": "ans-11",
+    "label_status": "REVIEWED",
+    "answer_text": "Disney+ standard subscription currently costs $7.99 per month with zero commercials. The platform launched in the United States on November 12, 2019. It hosts content from Pixar, Marvel, Star Wars, and National Geographic.",
+    "expected_claims": [
+      {
+        "id": "ans-11-c1",
+        "text": "Disney+ standard ad-free subscription costs $7.99 per month",
+        "expected_verdict": "outdated",
+        "entity": "Disney+ subscription price",
+        "original_sentence": "Disney+ standard subscription currently costs $7.99 per month with zero commercials."
+      },
+      {
+        "id": "ans-11-c2",
+        "text": "Disney+ launched in the United States on November 12, 2019",
+        "expected_verdict": "current",
+        "entity": "Disney+ launch",
+        "original_sentence": "The platform launched in the United States on November 12, 2019."
+      }
+    ],
+    "notes": "Single outdated fact: Disney+ ad-free plan price increased to $13.99+."
+  },
+  {
+    "id": "ans-12",
+    "label_status": "REVIEWED",
+    "answer_text": "Jeff Bezos currently serves as the Chief Executive Officer of Amazon. Amazon was established in Bellevue, Washington in July 1994. The company originally operated solely as an online bookstore.",
+    "expected_claims": [
+      {
+        "id": "ans-12-c1",
+        "text": "Jeff Bezos currently serves as the Chief Executive Officer of Amazon",
+        "expected_verdict": "outdated",
+        "entity": "Amazon CEO",
+        "original_sentence": "Jeff Bezos currently serves as the Chief Executive Officer of Amazon."
+      },
+      {
+        "id": "ans-12-c2",
+        "text": "Amazon was established in Bellevue, Washington in July 1994",
+        "expected_verdict": "current",
+        "entity": "Amazon founding",
+        "original_sentence": "Amazon was established in Bellevue, Washington in July 1994."
+      }
+    ],
+    "notes": "Single outdated fact: Andy Jassy replaced Jeff Bezos as Amazon CEO in 2021."
+  },
+  {
+    "id": "ans-13",
+    "label_status": "REVIEWED",
+    "answer_text": "Windows 10 is the latest operating system released by Microsoft. Microsoft announced Windows 10 in September 2014. The system introduced the Microsoft Edge web browser.",
+    "expected_claims": [
+      {
+        "id": "ans-13-c1",
+        "text": "Windows 10 is the latest operating system released by Microsoft",
+        "expected_verdict": "outdated",
+        "entity": "Windows operating system",
+        "original_sentence": "Windows 10 is the latest operating system released by Microsoft."
+      },
+      {
+        "id": "ans-13-c2",
+        "text": "Microsoft announced Windows 10 in September 2014",
+        "expected_verdict": "current",
+        "entity": "Windows 10 announcement",
+        "original_sentence": "Microsoft announced Windows 10 in September 2014."
+      }
+    ],
+    "notes": "Single outdated fact: Windows 11 was released in 2021 as the newer OS."
+  },
+  {
+    "id": "ans-14",
+    "label_status": "REVIEWED",
+    "answer_text": "The Sony PlayStation Plus subscription offers three tiers: Essential, Extra, and Premium. The PlayStation Plus 12-month Essential tier costs $59.99 annually in the United States. Online multiplayer requires at least the Essential tier.",
+    "expected_claims": [
+      {
+        "id": "ans-14-c1",
+        "text": "PlayStation Plus 12-month Essential tier costs $59.99 annually in the US",
+        "expected_verdict": "outdated",
+        "entity": "PlayStation Plus price",
+        "original_sentence": "The PlayStation Plus 12-month Essential tier costs $59.99 annually in the United States."
+      },
+      {
+        "id": "ans-14-c2",
+        "text": "PlayStation Plus offers Essential, Extra, and Premium tiers",
+        "expected_verdict": "current",
+        "entity": "PlayStation Plus tiers",
+        "original_sentence": "The Sony PlayStation Plus subscription offers three tiers: Essential, Extra, and Premium."
+      }
+    ],
+    "notes": "Single outdated fact: PlayStation Plus Essential 12-month price increased to $79.99 in September 2023."
+  },
+  {
+    "id": "ans-15",
+    "label_status": "REVIEWED",
+    "answer_text": "Twitter is headed by CEO Parag Agrawal, and verification badges are free of charge for approved public figures. The platform was rebranded as X under ownership of Elon Musk in July 2023.",
+    "expected_claims": [
+      {
+        "id": "ans-15-c1",
+        "text": "Twitter is headed by CEO Parag Agrawal",
+        "expected_verdict": "outdated",
+        "entity": "Twitter CEO",
+        "original_sentence": "Twitter is headed by CEO Parag Agrawal, and verification badges are free of charge for approved public figures."
+      },
+      {
+        "id": "ans-15-c2",
+        "text": "Twitter verification badges are free of charge for approved public figures",
+        "expected_verdict": "outdated",
+        "entity": "Twitter verification policy",
+        "original_sentence": "Twitter is headed by CEO Parag Agrawal, and verification badges are free of charge for approved public figures."
+      },
+      {
+        "id": "ans-15-c3",
+        "text": "Twitter was rebranded as X in July 2023",
+        "expected_verdict": "current",
+        "entity": "Twitter X rebrand",
+        "original_sentence": "The platform was rebranded as X under ownership of Elon Musk in July 2023."
+      }
+    ],
+    "notes": "Multiple outdated facts: Agrawal is not CEO, and checkmarks are paid via X Premium."
+  },
+  {
+    "id": "ans-16",
+    "label_status": "REVIEWED",
+    "answer_text": "Amazon is led by CEO Jeff Bezos, and Amazon Prime costs $119 per year in the US. The Prime subscription includes free two-day shipping on millions of qualifying products.",
+    "expected_claims": [
+      {
+        "id": "ans-16-c1",
+        "text": "Amazon is led by CEO Jeff Bezos",
+        "expected_verdict": "outdated",
+        "entity": "Amazon CEO",
+        "original_sentence": "Amazon is led by CEO Jeff Bezos, and Amazon Prime costs $119 per year in the US."
+      },
+      {
+        "id": "ans-16-c2",
+        "text": "Amazon Prime costs $119 per year in the US",
+        "expected_verdict": "outdated",
+        "entity": "Amazon Prime price",
+        "original_sentence": "Amazon is led by CEO Jeff Bezos, and Amazon Prime costs $119 per year in the US."
+      },
+      {
+        "id": "ans-16-c3",
+        "text": "Prime subscription includes free two-day shipping on qualifying products",
+        "expected_verdict": "current",
+        "entity": "Amazon Prime shipping",
+        "original_sentence": "The Prime subscription includes free two-day shipping on millions of qualifying products."
+      }
+    ],
+    "notes": "Multiple outdated facts: Jassy is CEO, and Prime increased to $139/year."
+  },
+  {
+    "id": "ans-17",
+    "label_status": "REVIEWED",
+    "answer_text": "The Tesla Model 3 starts at $35,000, and full self-driving package costs an additional $5,000. The Model 3 was first unveiled to the public in March 2016.",
+    "expected_claims": [
+      {
+        "id": "ans-17-c1",
+        "text": "Tesla Model 3 starts at $35,000",
+        "expected_verdict": "outdated",
+        "entity": "Tesla Model 3 price",
+        "original_sentence": "The Tesla Model 3 starts at $35,000, and full self-driving package costs an additional $5,000."
+      },
+      {
+        "id": "ans-17-c2",
+        "text": "Tesla full self-driving package costs $5,000",
+        "expected_verdict": "outdated",
+        "entity": "Tesla FSD price",
+        "original_sentence": "The Tesla Model 3 starts at $35,000, and full self-driving package costs an additional $5,000."
+      },
+      {
+        "id": "ans-17-c3",
+        "text": "Model 3 was first unveiled in March 2016",
+        "expected_verdict": "current",
+        "entity": "Tesla Model 3 unveil",
+        "original_sentence": "The Model 3 was first unveiled to the public in March 2016."
+      }
+    ],
+    "notes": "Multiple outdated facts: Model 3 base price is higher ($38,990), and FSD price changed to $8,000 / $12,000."
+  },
+  {
+    "id": "ans-18",
+    "label_status": "REVIEWED",
+    "answer_text": "Apple sells the iPhone 13 Pro starting at $999, and iOS 15 is the latest software version. The iPhone 13 Pro introduced a 120Hz ProMotion display.",
+    "expected_claims": [
+      {
+        "id": "ans-18-c1",
+        "text": "Apple currently sells the iPhone 13 Pro starting at $999",
+        "expected_verdict": "outdated",
+        "entity": "iPhone 13 Pro availability",
+        "original_sentence": "Apple sells the iPhone 13 Pro starting at $999, and iOS 15 is the latest software version."
+      },
+      {
+        "id": "ans-18-c2",
+        "text": "iOS 15 is the latest software version",
+        "expected_verdict": "outdated",
+        "entity": "iOS version",
+        "original_sentence": "Apple sells the iPhone 13 Pro starting at $999, and iOS 15 is the latest software version."
+      },
+      {
+        "id": "ans-18-c3",
+        "text": "The iPhone 13 Pro introduced a 120Hz ProMotion display",
+        "expected_verdict": "current",
+        "entity": "iPhone 13 Pro ProMotion",
+        "original_sentence": "The iPhone 13 Pro introduced a 120Hz ProMotion display."
+      }
+    ],
+    "notes": "Multiple outdated facts: Apple discontinued iPhone 13 Pro upon iPhone 14 release, and iOS 15 is superseded."
+  },
+  {
+    "id": "ans-19",
+    "label_status": "REVIEWED",
+    "answer_text": "In my personal view, the Google Pixel 8 is the most aesthetic smartphone ever created. You should definitely consider buying one if you value elegance and charm. Photography is fundamentally an art form that everyone enjoys.",
+    "expected_claims": [],
+    "notes": "Pure opinions and subjective recommendations: zero checkable claims expected."
+  },
+  {
+    "id": "ans-20",
+    "label_status": "REVIEWED",
+    "answer_text": "I hope you are having an amazing morning! Always remember to drink plenty of water and stay relaxed when picking electronics. Shopping should always be an enjoyable and peaceful journey for everyone.",
+    "expected_claims": [],
+    "notes": "Pure conversational greeting and lifestyle advice: zero checkable claims expected."
+  }
+]
+
