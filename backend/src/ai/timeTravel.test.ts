@@ -1,7 +1,7 @@
 import "dotenv/config";
 import assert from "node:assert";
 import { timeTravelVerify } from "./timeTravel";
-import { Evidence } from "../../../shared/schemas";
+import { Claim, Evidence } from "../../../shared/schemas";
 import {
   claimOutdatedCeo,
   evidenceOutdatedCeo,
@@ -199,6 +199,24 @@ async function runLiveEvaluation(): Promise<void> {
     "2022-01-01"
   );
   console.log("Live Time-Travel Result:", JSON.stringify(res, null, 2));
+
+  const claimJackDorsey: Claim = {
+    id: "c-ceo-false",
+    text: "Twitter CEO is Jack Dorsey",
+    type: "person_role",
+    entity: "Twitter CEO",
+    original_sentence: "Twitter CEO is Jack Dorsey.",
+    checkable: true,
+  };
+
+  console.log("\nLIVE MODE (Case 2): Invoking timeTravelVerify() for 'Twitter CEO is Jack Dorsey'...");
+  const resJackDorsey = await timeTravelVerify(
+    claimJackDorsey,
+    evidenceOutdatedCeo,
+    evidenceOutdatedCeo,
+    "2022-01-01"
+  );
+  console.log("Live Time-Travel Result (Jack Dorsey):", JSON.stringify(resJackDorsey, null, 2));
 }
 
 async function main(): Promise<void> {
