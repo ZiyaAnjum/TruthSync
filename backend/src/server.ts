@@ -20,6 +20,10 @@ dotenv.config();
 
 import app from "./app";
 import { isSupabaseConfigured, testSupabaseConnection } from "./db/supabaseClient";
+import { registerDefaultAiServices } from "./services/aiServices";
+
+// Wire default AI verification services (Member C)
+registerDefaultAiServices();
 
 const PORT = Number(process.env.PORT) || 5000;
 
