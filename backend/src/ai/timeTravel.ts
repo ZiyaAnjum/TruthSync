@@ -90,8 +90,27 @@ export async function timeTravelVerify(
       });
 
       if (!hasPreDateContradiction && supportingStances.length === 0 && opposingStances.length > 0) {
-        // The only pre-asOfDate sources reported the fact, but were tagged "outdated" due to post-asOfDate events.
-        verdictThen = "current";
+        // Check if the evidence itself describes the claim ending/stepping down prior to asOfDate
+        const isExplicitContradiction = opposingStances.some((opp) => {
+          const text = `${opp.quote} ${opp.reason}`.toLowerCase();
+          return (
+            text.includes("step down") ||
+            text.includes("stepped down") ||
+            text.includes("resign") ||
+            text.includes("fired") ||
+            text.includes("terminate") ||
+            text.includes("depart") ||
+            text.includes("discontinue") ||
+            text.includes("no longer") ||
+            text.includes("replaced")
+          );
+        });
+
+        if (!isExplicitContradiction) {
+          // The pre-asOfDate source affirmed the appointment/fact, but was tagged "outdated" by the LLM
+          // purely due to world knowledge of subsequent post-asOfDate events.
+          verdictThen = "current";
+        }
       }
     }
 
