@@ -1,21 +1,6 @@
-import dotenv from "dotenv";
+import "dotenv/config";
 import fs from "fs";
 import path from "path";
-
-// Load backend/.env via dotenv before anything else
-const envCandidates = [
-  path.resolve(__dirname, "../../.env"),
-  path.resolve(process.cwd(), "backend/.env"),
-  path.resolve(process.cwd(), ".env"),
-];
-for (const envPath of envCandidates) {
-  if (fs.existsSync(envPath)) {
-    dotenv.config({ path: envPath });
-    break;
-  }
-}
-dotenv.config();
-
 import { callLLM } from "../../../shared/llm";
 import {
   AnalyzeRequest,

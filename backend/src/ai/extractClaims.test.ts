@@ -1,3 +1,4 @@
+import "dotenv/config";
 import assert from "node:assert";
 import { extractClaims, postProcessClaims } from "./extractClaims";
 import { Claim } from "../../../shared/schemas";
