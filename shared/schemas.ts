@@ -4,8 +4,8 @@
 // Dates are always "YYYY-MM-DD" strings. Scores are always numbers 0-100.
 import { z } from "zod";
 
-export const SCHEMA_VERSION = "1.0.0";
-export const MAX_ANSWER_CHARS = 5000; // TBD: confirm against FR-01 in the PRD
+export const SCHEMA_VERSION = "1.1.0";
+export const MAX_ANSWER_CHARS = 4000;
 
 const isoDate = z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "use YYYY-MM-DD");
 const score = z.number().min(0).max(100);
@@ -152,6 +152,17 @@ export const TimelineEvent = z.object({
   source_url: z.string(),
 });
 
+// ---------- P1: Time-travel (C-08) ----------
+export const TimeTravelResult = z.object({
+  claim_id: z.string(),
+  as_of_date: isoDate,
+  verdict_then: Verdict,
+  verdict_now: Verdict,
+  was_true_then: z.boolean().nullable(),
+  explanation: z.string(),
+  evidence_used: z.array(z.string().url()),
+});
+
 // ---------- Types ----------
 export type Claim = z.infer<typeof Claim>;
 export type Evidence = z.infer<typeof Evidence>;
@@ -165,3 +176,9 @@ export type ClaimReport = z.infer<typeof ClaimReport>;
 export type Report = z.infer<typeof Report>;
 export type AnalysisStatus = z.infer<typeof AnalysisStatus>;
 export type ApiError = z.infer<typeof ApiError>;
+export type VolatilityClass = z.infer<typeof VolatilityClass>;
+export type Verdict = z.infer<typeof Verdict>;
+export type Severity = z.infer<typeof Severity>;
+export type Change = z.infer<typeof Change>;
+export type TimelineEvent = z.infer<typeof TimelineEvent>;
+export type TimeTravelResult = z.infer<typeof TimeTravelResult>;

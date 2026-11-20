@@ -5,7 +5,7 @@ import type { Report } from "./schemas";
 
 export const sampleReport: Report = {
   id: "demo-1",
-  schema_version: "1.0.0",
+  schema_version: "1.1.0",
   created_at: "2026-11-18T10:00:00Z",
   answer_text: "The CEO of ExampleCorp is Jane Doe. The company has 5,000 employees.",
   overall_freshness_score: 55,

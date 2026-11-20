@@ -23,14 +23,14 @@ Effort points are proposed estimates (1 small, 5 large). Member names are TBD. S
 - [ ] B-08 (2, P1) History list endpoint
 
 ## Member C: AI and Verification Logic (P0 = 18, P1 = 6)
-- [ ] C-01 (4, P0) Claim extraction: prompt, JSON schema, validation (FR-02)
-- [ ] C-02 (3, P0) Fact Expiry Predictor: volatility classes and recheck table (FR-03)
-- [ ] C-03 (4, P0) Source Conflict Detective (FR-05)
-- [ ] C-04 (3, P0) Hidden Risk Detector (FR-07)
-- [ ] C-05 (3, P0) Minimal Correction Engine (FR-08)
-- [ ] C-06 (1, P0) Evaluation set (20 AI answers) and KPI-1 to KPI-4 testing
-- [ ] C-07 (3, P1) Timeline event building (FR-10)
-- [ ] C-08 (3, P1) Time-travel verification logic (FR-11)
+- [x] C-01 (4, P0) Claim extraction: prompt, JSON schema, validation (FR-02)
+- [x] C-02 (3, P0) Fact Expiry Predictor: volatility classes and recheck table (FR-03)
+- [x] C-03 (4, P0) Source Conflict Detective (FR-05)
+- [x] C-04 (3, P0) Hidden Risk Detector (FR-07)
+- [x] C-05 (3, P0) Minimal Correction Engine (FR-08)
+- [x] C-06 (1, P0) Evaluation set (20 AI answers) and KPI-1 to KPI-4 testing
+- [x] C-07 (3, P1) Timeline event building (FR-10)
+- [x] C-08 (3, P1) Time-travel verification logic (FR-11)
 
 ## Shared (all three, Phase 0)
 - [ ] S-01 Answer open questions Q1 to Q8 in PRD Section 16
