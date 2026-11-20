@@ -1,19 +1,25 @@
-// At integration, replace the bodies of these functions with real API calls and set isDemoMode from the environment. This is the ONLY file that should change. Screens must never import mockProgress or mockReport directly.
-
 import type { AnalysisStatus, Report } from '../../../shared/schemas'
 import { getMockReport } from './mockReport'
 import { startMockProgress } from './mockProgress'
+import { getReport as getLiveReport, isLiveApiConfigured, startVerification as startLiveVerification } from './liveApi'
 
-export const isDemoMode = true
+export const isDemoMode = !isLiveApiConfigured
 
 export function startVerification(
-  _answerText: string,
+  answerText: string,
   _question: string,
   onUpdate: (status: AnalysisStatus) => void,
 ): () => void {
-  return startMockProgress(onUpdate)
+  if (isDemoMode) {
+    return startMockProgress(onUpdate)
+  }
+
+  return startLiveVerification(answerText, onUpdate)
 }
 
-export function getReport(variant?: string): Report {
-  return getMockReport(variant)
+export async function getReport(variant?: string): Promise<Report> {
+  if (isDemoMode) {
+    return getMockReport(variant)
+  }
+  return getLiveReport()
 }

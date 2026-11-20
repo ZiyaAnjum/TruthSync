@@ -5,7 +5,8 @@ import { ProgressScreen } from './screens/ProgressScreen'
 import { ReportScreen } from './screens/ReportScreen'
 import { ClaimDetailScreen } from './screens/ClaimDetailScreen'
 import { getReport, startVerification } from './lib/dataSource'
-import type { ClaimReport } from '../../shared/schemas'
+import { getApiErrorMessage } from './lib/errors'
+import type { ClaimReport, Report } from '../../shared/schemas'
 import type { ProgressStatus } from './lib/progress'
 
 const screenTitles = {
@@ -24,7 +25,9 @@ function App() {
     percent: 0,
     error: null,
   })
+  const [report, setReport] = useState<Report | null>(null)
   const cancelProgressRef = useRef<(() => void) | null>(null)
+  const activeRunRef = useRef(0)
   const requestedReportVariant = new URLSearchParams(window.location.search).get('report')
   const reportVariant =
     requestedReportVariant === 'many' ||
@@ -35,36 +38,63 @@ function App() {
     requestedReportVariant === 'nosources'
       ? requestedReportVariant
       : undefined
-  const mockReport = getReport(reportVariant)
-  const selectedClaimReport: ClaimReport | undefined = mockReport.claims.find(
+  const selectedClaimReport: ClaimReport | undefined = report?.claims.find(
     ({ claim }) => claim.id === selectedClaimId,
   )
 
-  function stopMockProgress() {
+  function stopVerification() {
+    activeRunRef.current += 1
     cancelProgressRef.current?.()
     cancelProgressRef.current = null
   }
 
   function returnToHome() {
-    stopMockProgress()
+    stopVerification()
     setScreen('home')
   }
 
-  function handleVerify(_answerText: string, _question: string) {
-    stopMockProgress()
+  function handleVerify(answerText: string, question: string) {
+    stopVerification()
+    const runId = ++activeRunRef.current
     setStatus({
       id: 'demo-progress',
       stage: 'queued',
       percent: 0,
       error: null,
     })
+    setReport(null)
     setScreen('progress')
 
-    cancelProgressRef.current = startVerification(_answerText, _question, (nextStatus) => {
+    async function loadReport() {
+      try {
+        const nextReport = await getReport(reportVariant)
+        if (activeRunRef.current !== runId) {
+          return
+        }
+        setReport(nextReport)
+        setScreen('report')
+        cancelProgressRef.current = null
+      } catch (error) {
+        if (activeRunRef.current !== runId) {
+          return
+        }
+        setStatus((currentStatus) => ({
+          ...currentStatus,
+          stage: 'failed',
+          error: error instanceof Error ? error.message : getApiErrorMessage('INTERNAL'),
+        }))
+        cancelProgressRef.current = null
+      }
+    }
+
+    cancelProgressRef.current = startVerification(answerText, question, (nextStatus) => {
+      if (activeRunRef.current !== runId) {
+        return
+      }
+
       setStatus(nextStatus)
       if (nextStatus.stage === 'done') {
-        setScreen('report')
-        stopMockProgress()
+        void loadReport()
       }
     })
   }
@@ -82,7 +112,7 @@ function App() {
   }, [screen])
 
   useEffect(() => {
-    return () => stopMockProgress()
+    return () => stopVerification()
   }, [])
 
   return (
@@ -101,10 +131,10 @@ function App() {
         </div>
       )}
 
-      {screen === 'report' && (
+      {screen === 'report' && report && (
         <div key="report" className="screen-enter">
           <ReportScreen
-            report={mockReport}
+            report={report}
             onSelectClaim={(claimId) => {
               setSelectedClaimId(claimId)
               setScreen('claim-detail')

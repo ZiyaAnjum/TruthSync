@@ -1,5 +1,6 @@
-import { useEffect, useRef } from 'react'
+import { useState } from 'react'
 import { PageLayout } from '../components/PageLayout'
+import { isDemoMode } from '../lib/dataSource'
 import {
   DISPLAY_STAGES,
   getDisplayStageState,
@@ -51,16 +52,11 @@ function StateIcon({ state }: { state: 'waiting' | 'in progress' | 'done' | 'fai
 }
 
 export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps) {
-  const lastActiveStageRef = useRef<DisplayStageId | null>(null)
-
-  useEffect(() => {
-    if (status.stage !== 'failed') {
-      const activeStage = mapBackendStageToDisplayStage(status.stage)
-      if (activeStage) {
-        lastActiveStageRef.current = activeStage
-      }
-    }
-  }, [status.stage])
+  const [lastActiveStage, setLastActiveStage] = useState<DisplayStageId | null>(null)
+  const activeStage = mapBackendStageToDisplayStage(status.stage)
+  if (status.stage !== 'failed' && activeStage && activeStage !== lastActiveStage) {
+    setLastActiveStage(activeStage)
+  }
 
   const activeLabel = DISPLAY_STAGES.find(
     (stage) => stage.id === mapBackendStageToDisplayStage(status.stage),
@@ -81,9 +77,11 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
         aria-labelledby="progress-heading"
         className="premium-card mx-auto min-w-0 max-w-3xl p-5 sm:p-7"
       >
-        <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
-          Demo data (mock)
-        </p>
+        {isDemoMode && (
+          <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
+            Demo data (mock)
+          </p>
+        )}
         <h1 id="progress-heading" className="mt-2 text-2xl font-bold text-slate-950">
           Checking your answer
         </h1>
@@ -125,7 +123,7 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
             const state = getDisplayStageState(
               stage.id,
               status,
-              lastActiveStageRef.current,
+              lastActiveStage,
             )
             const stateStyle =
               state === 'done'
