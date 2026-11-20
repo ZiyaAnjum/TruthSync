@@ -1,11 +1,24 @@
-// shared/llm.ts
-// The ONLY place in the project allowed to call the LLM. Server-side only (never import in frontend).
-// Every AI task (C-01..C-08) must go through callLLM(). Owner: Member C.
-import Anthropic from "@anthropic-ai/sdk";
+// shared/llm.ts  (v3)
+// Same callLLM() signature as before, so no other file changes.
+// Calls go to the Bifrost gateway (OpenAI-compatible endpoint). Bifrost holds the real
+// provider keys (Gemini, Groq); this app only holds a Bifrost virtual key. Server-side only.
+import "dotenv/config"; // must load before process.env is read below
+import OpenAI from "openai";
 import { z } from "zod";
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY }); // key lives in server .env only
-const MODEL = process.env.LLM_MODEL ?? "claude-sonnet-5-5";             // change model via env, not code
+const client = new OpenAI({
+  baseURL: process.env.LLM_BASE_URL ?? "http://localhost:8080/v1", // Bifrost gateway URL
+  apiKey: process.env.BIFROST_VK ?? "bifrost-local",               // Bifrost virtual key (sk-bf-...)
+});
+
+const MODEL = process.env.LLM_MODEL ?? ""; // e.g. "gemini/gemini-3.5-flash-lite"
+
+// Comma-separated backups, tried by Bifrost if the main model fails (e.g. 429)
+// e.g. LLM_FALLBACKS=groq/<model-id>
+const FALLBACKS = (process.env.LLM_FALLBACKS ?? "")
+  .split(",")
+  .map((s) => s.trim())
+  .filter(Boolean);
 
 export class LLMError extends Error {
   constructor(message: string, public attempts: number) {
@@ -15,17 +28,19 @@ export class LLMError extends Error {
 }
 
 interface CallOptions<T extends z.ZodTypeAny> {
-  system: string;          // task instructions (load from /prompts/*.md)
-  prompt: string;          // the input data for this call
-  schema: T;               // Zod schema the output MUST match
-  maxRetries?: number;     // default 2
-  timeoutMs?: number;      // default 60s
-  maxTokens?: number;      // default 2000
+  system: string;
+  prompt: string;
+  schema: T;
+  maxRetries?: number; // default 2
+  timeoutMs?: number;  // default 120s (some models can be slow)
+  maxTokens?: number;  // default 4000 (reasoning tokens count toward this)
 }
 
 const JSON_RULES =
   "Respond with ONLY valid JSON. No markdown, no code fences, no text before or after. " +
   "If a value is unknown use null, never invent facts.";
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 function extractJson(raw: string): unknown {
   const cleaned = raw.replace(/```json|```/gi, "").trim();
@@ -35,35 +50,47 @@ function extractJson(raw: string): unknown {
 }
 
 export async function callLLM<T extends z.ZodTypeAny>(opts: CallOptions<T>): Promise<z.infer<T>> {
-  const { system, prompt, schema, maxRetries = 2, timeoutMs = 60_000, maxTokens = 2000 } = opts;
+  const { system, prompt, schema, maxRetries = 2, timeoutMs = 120_000, maxTokens = 4000 } = opts;
+  if (!MODEL) throw new LLMError("LLM_MODEL is not set in .env", 0);
+
   let userPrompt = prompt;
   let lastError = "unknown error";
 
   for (let attempt = 1; attempt <= maxRetries + 1; attempt++) {
     try {
-      const res = await client.messages.create(
-        {
-          model: MODEL,
-          max_tokens: maxTokens,
-          system: `${system}\n\n${JSON_RULES}`,
-          messages: [{ role: "user", content: userPrompt }],
-        },
+      const params = {
+        model: MODEL,
+        max_tokens: maxTokens,
+        temperature: 0,
+        messages: [
+          { role: "system", content: `${system}\n\n${JSON_RULES}` },
+          { role: "user", content: userPrompt },
+        ],
+        // Bifrost-specific field: backup models if the main one fails
+        ...(FALLBACKS.length ? { fallbacks: FALLBACKS } : {}),
+      };
+
+      const res = await client.chat.completions.create(
+        params as OpenAI.Chat.ChatCompletionCreateParamsNonStreaming,
         { timeout: timeoutMs },
       );
-      const text = res.content.map((b) => (b.type === "text" ? b.text : "")).join("");
-      return schema.parse(extractJson(text)); // throws if shape is wrong
+
+      const text = res.choices[0]?.message?.content ?? "";
+      return schema.parse(extractJson(text));
     } catch (err) {
       lastError = err instanceof Error ? err.message : String(err);
-      // Tell the model what went wrong so the retry can fix it
+
+      if ((err as { status?: number }).status === 429) {
+        // A daily quota can't recover in seconds, so stop instead of burning attempts
+        if (/per day|PerDay/i.test(lastError)) {
+          throw new LLMError(`Daily quota exhausted: ${lastError.slice(0, 200)}`, attempt);
+        }
+        // Per-minute limit: wait, then retry
+        await sleep(3000 * attempt);
+      }
+
       userPrompt = `${prompt}\n\nYour previous reply was invalid: ${lastError.slice(0, 500)}\nReturn corrected JSON only.`;
     }
   }
-  throw new LLMError(`LLM output failed after ${maxRetries + 1} attempts: ${lastError}`, maxRetries + 1);
+  throw new LLMError(`LLM call failed after ${maxRetries + 1} attempts: ${lastError}`, maxRetries + 1);
 }
-
-// Example usage (Member C, C-01):
-//   const out = await callLLM({
-//     system: loadPrompt("extract-claims"),
-//     prompt: JSON.stringify({ answer_text }),
-//     schema: ExtractClaimsOutput,
-//   });

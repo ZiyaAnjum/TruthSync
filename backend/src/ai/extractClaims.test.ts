@@ -1,3 +1,4 @@
+import "dotenv/config";
 import assert from "node:assert";
 import { extractClaims, postProcessClaims } from "./extractClaims";
 import { Claim } from "../../../shared/schemas";
@@ -132,12 +133,13 @@ function runPostProcessingUnitTests(): void {
 }
 
 // ============================================================================
-// PART 2: Five Sample AI Answers for Real API or Mock Runs
+// PART 2: Five Sample AI Answers for Live API or Mock Extractions
 // ============================================================================
 export interface SampleCase {
   title: string;
   category: "fully_correct" | "outdated" | "opinions_only" | "numbers_and_dates" | "very_short";
   answerText: string;
+  mockRawClaims: Claim[];
 }
 
 export const sampleCases: SampleCase[] = [
@@ -148,6 +150,40 @@ export const sampleCases: SampleCase[] = [
       "The Apple iPhone 15 was officially announced on September 12, 2023. " +
       "It features the Apple A16 Bionic processor and has a 48-megapixel main camera sensor. " +
       "The base model launched with 128GB of internal storage.",
+    mockRawClaims: [
+      {
+        id: "c1",
+        text: "The Apple iPhone 15 was officially announced on September 12, 2023",
+        type: "date",
+        entity: "Apple iPhone 15 announcement",
+        original_sentence: "The Apple iPhone 15 was officially announced on September 12, 2023.",
+        checkable: true,
+      },
+      {
+        id: "c2",
+        text: "The Apple iPhone 15 features the Apple A16 Bionic processor",
+        type: "product",
+        entity: "Apple iPhone 15 processor",
+        original_sentence: "It features the Apple A16 Bionic processor and has a 48-megapixel main camera sensor.",
+        checkable: true,
+      },
+      {
+        id: "c3",
+        text: "The Apple iPhone 15 has a 48-megapixel main camera sensor",
+        type: "number",
+        entity: "Apple iPhone 15 camera sensor",
+        original_sentence: "It features the Apple A16 Bionic processor and has a 48-megapixel main camera sensor.",
+        checkable: true,
+      },
+      {
+        id: "c4",
+        text: "The base model Apple iPhone 15 launched with 128GB of internal storage",
+        type: "product",
+        entity: "Apple iPhone 15 storage",
+        original_sentence: "The base model launched with 128GB of internal storage.",
+        checkable: true,
+      },
+    ],
   },
   {
     title: "Sample 2: Outdated Information (Outdated CEO and Outdated Price)",
@@ -155,6 +191,24 @@ export const sampleCases: SampleCase[] = [
     answerText:
       "Twitter is led by CEO Parag Agrawal. " +
       "The Tesla Model 3 base edition starts at an original price of $35,000 in the United States.",
+    mockRawClaims: [
+      {
+        id: "c1",
+        text: "Twitter is led by CEO Parag Agrawal",
+        type: "person_role",
+        entity: "Twitter CEO",
+        original_sentence: "Twitter is led by CEO Parag Agrawal.",
+        checkable: true,
+      },
+      {
+        id: "c2",
+        text: "The Tesla Model 3 base edition starts at an original price of $35,000 in the United States",
+        type: "number",
+        entity: "Tesla Model 3 price",
+        original_sentence: "The Tesla Model 3 base edition starts at an original price of $35,000 in the United States.",
+        checkable: true,
+      },
+    ],
   },
   {
     title: "Sample 3: Pure Opinions and Advice (No Checkable Facts)",
@@ -163,6 +217,7 @@ export const sampleCases: SampleCase[] = [
       "In my humble opinion, the Google Pixel 8 is the most delightful and charming phone on the market. " +
       "I love the rounded corners and feel that anyone considering an upgrade should definitely buy one immediately. " +
       "You will certainly enjoy taking photos with it!",
+    mockRawClaims: [], // Models should extract 0 claims for pure opinions/advice
   },
   {
     title: "Sample 4: Heavy Numbers and Dates",
@@ -171,48 +226,107 @@ export const sampleCases: SampleCase[] = [
       "PlayStation 5 was officially released on November 12, 2020 with an initial retail price of $499.99. " +
       "On October 10, 2023, Sony announced the PS5 Slim, which reduced internal volume by 30 percent and weight by 18 percent. " +
       "By December 31, 2023, total PlayStation 5 shipments exceeded 50 million units worldwide.",
+    mockRawClaims: [
+      {
+        id: "c1",
+        text: "PlayStation 5 was officially released on November 12, 2020",
+        type: "date",
+        entity: "PlayStation 5 release date",
+        original_sentence: "PlayStation 5 was officially released on November 12, 2020 with an initial retail price of $499.99.",
+        checkable: true,
+      },
+      {
+        id: "c2",
+        text: "PlayStation 5 initial retail price was $499.99",
+        type: "number",
+        entity: "PlayStation 5 price",
+        original_sentence: "PlayStation 5 was officially released on November 12, 2020 with an initial retail price of $499.99.",
+        checkable: true,
+      },
+      {
+        id: "c3",
+        text: "Sony announced the PS5 Slim on October 10, 2023",
+        type: "event",
+        entity: "Sony PS5 Slim announcement",
+        original_sentence: "On October 10, 2023, Sony announced the PS5 Slim, which reduced internal volume by 30 percent and weight by 18 percent.",
+        checkable: true,
+      },
+      {
+        id: "c4",
+        text: "The PS5 Slim reduced internal volume by 30 percent",
+        type: "number",
+        entity: "PS5 Slim volume reduction",
+        original_sentence: "On October 10, 2023, Sony announced the PS5 Slim, which reduced internal volume by 30 percent and weight by 18 percent.",
+        checkable: true,
+      },
+      {
+        id: "c5",
+        text: "The PS5 Slim reduced weight by 18 percent",
+        type: "number",
+        entity: "PS5 Slim weight reduction",
+        original_sentence: "On October 10, 2023, Sony announced the PS5 Slim, which reduced internal volume by 30 percent and weight by 18 percent.",
+        checkable: true,
+      },
+      {
+        id: "c6",
+        text: "Total PlayStation 5 shipments exceeded 50 million units worldwide by December 31, 2023",
+        type: "number",
+        entity: "PlayStation 5 shipments",
+        original_sentence: "By December 31, 2023, total PlayStation 5 shipments exceeded 50 million units worldwide.",
+        checkable: true,
+      },
+    ],
   },
   {
     title: "Sample 5: Very Short Single Claim",
     category: "very_short",
     answerText: "The Nintendo Switch launched worldwide on March 3, 2017.",
+    mockRawClaims: [
+      {
+        id: "c1",
+        text: "The Nintendo Switch launched worldwide on March 3, 2017",
+        type: "date",
+        entity: "Nintendo Switch launch date",
+        original_sentence: "The Nintendo Switch launched worldwide on March 3, 2017.",
+        checkable: true,
+      },
+    ],
   },
 ];
 
 async function runSampleEvaluations(): Promise<void> {
   console.log("=================================================");
-  console.log("Running Evaluation on 5 Sample AI Answers");
+  console.log("Evaluation of 5 Sample AI Answers");
   console.log("=================================================");
 
-  const hasApiKey = Boolean(process.env.ANTHROPIC_API_KEY);
+  const runLive = process.argv.includes("--real");
 
-  if (!hasApiKey) {
-    console.log("ℹ ANTHROPIC_API_KEY is not set in backend/.env.");
-    console.log("To run live extraction against Claude, set ANTHROPIC_API_KEY in backend/.env.");
-    console.log("Displaying the 5 sample answers configured for live execution:\n");
-
-    sampleCases.forEach((sample, i) => {
-      console.log(`[Sample ${i + 1}] ${sample.title}`);
-      console.log(`Category: ${sample.category}`);
+  if (runLive) {
+    console.log("Running in LIVE mode using extractClaims() with Anthropic API...\n");
+    for (let i = 0; i < sampleCases.length; i++) {
+      const sample = sampleCases[i];
+      console.log(`\n--- [Sample ${i + 1}/5] ${sample.title} (${sample.category}) ---`);
       console.log(`Input Text: "${sample.answerText}"`);
-      console.log("-------------------------------------------------");
-    });
-    return;
-  }
+      try {
+        const claims = await extractClaims(sample.answerText);
+        console.log(`Extracted Claims (${claims.length}):`);
+        console.log(JSON.stringify(claims, null, 2));
+      } catch (err) {
+        console.error(`Live extraction failed for sample ${i + 1}:`, err);
+      }
+    }
+  } else {
+    console.log("Running in MOCK mode (post-processing applied to realistic mock LLM output).");
+    console.log("Tip: Pass '--real' (e.g. 'npx tsx src/ai/extractClaims.test.ts --real') to call the live API.\n");
 
-  console.log("Found ANTHROPIC_API_KEY. Calling extractClaims() for each sample:\n");
+    for (let i = 0; i < sampleCases.length; i++) {
+      const sample = sampleCases[i];
+      console.log(`\n--- [Sample ${i + 1}/5] ${sample.title} (${sample.category}) ---`);
+      console.log(`Input Text: "${sample.answerText}"`);
 
-  for (let i = 0; i < sampleCases.length; i++) {
-    const sample = sampleCases[i];
-    console.log(`\n--- [Sample ${i + 1}/5] ${sample.title} (${sample.category}) ---`);
-    console.log(`Input: "${sample.answerText}"`);
-
-    try {
-      const claims = await extractClaims(sample.answerText);
+      const claims = postProcessClaims(sample.mockRawClaims, sample.answerText);
       console.log(`Extracted Claims (${claims.length}):`);
       console.log(JSON.stringify(claims, null, 2));
-    } catch (err) {
-      console.error(`Extraction failed for sample ${i + 1}:`, err);
     }
   }
 }
