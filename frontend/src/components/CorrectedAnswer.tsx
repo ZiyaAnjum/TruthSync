@@ -89,7 +89,7 @@ export function CorrectedAnswer({ correction }: CorrectedAnswerProps) {
   return (
     <section
       aria-labelledby="corrected-answer-heading"
-      className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      className="premium-card report-fade-up min-w-0 p-5 sm:p-6"
     >
       <h2 id="corrected-answer-heading" className="text-xl font-bold text-slate-950">
         Corrected answer
@@ -108,7 +108,7 @@ export function CorrectedAnswer({ correction }: CorrectedAnswerProps) {
                 parts.push(
                   <mark
                     key={`${highlight.start}-${index}`}
-                    className="bg-yellow-100 font-semibold underline decoration-2 underline-offset-2"
+                    className="answer-change-mark font-semibold underline decoration-2 underline-offset-2"
                   >
                     {highlight.newSpan}
                     <span className="sr-only">
@@ -129,7 +129,7 @@ export function CorrectedAnswer({ correction }: CorrectedAnswerProps) {
             {correction.changes.map((change, index) => (
               <li
                 key={`${change.claim_id}-${index}`}
-                className="min-w-0 break-words rounded-lg bg-slate-50 p-3 text-sm leading-6 text-slate-900"
+                className="premium-inner min-w-0 break-words p-3 text-sm leading-6 text-slate-900"
               >
                 <p>
                   <span>{change.original_span}</span>
@@ -159,11 +159,16 @@ export function CorrectedAnswer({ correction }: CorrectedAnswerProps) {
           <button
             type="button"
             onClick={() => copyCorrectedAnswer(correction.corrected_text)}
-            className="mt-5 w-full rounded-xl bg-blue-800 px-4 py-3 text-base font-bold text-white outline-none hover:bg-blue-900 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+            className="button-primary mt-5 w-full rounded-xl px-4 py-3 text-base font-bold outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
           >
             Copy corrected answer
           </button>
-          <p aria-live="polite" className="mt-2 min-h-5 text-sm font-semibold text-slate-800">
+          <p
+            aria-live="polite"
+            className={`copy-feedback mt-2 min-h-5 text-sm font-semibold text-slate-800 ${
+              copyState === 'copied' ? 'copy-feedback--copied' : ''
+            }`}
+          >
             {copyState === 'copied'
               ? 'Copied'
               : copyState === 'failed'

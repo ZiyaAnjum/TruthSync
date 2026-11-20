@@ -49,7 +49,7 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
   return (
     <section
       aria-labelledby="claims-heading"
-      className="min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm sm:p-6"
+      className="premium-card min-w-0 p-4 sm:p-6"
     >
       <div className="flex min-w-0 flex-wrap items-end justify-between gap-3">
         <h2 id="claims-heading" className="text-xl font-bold text-slate-950">
@@ -65,7 +65,7 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
                 STATUS_OPTIONS.find((status) => status === value) ?? 'all',
               )
             }}
-            className="max-w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none focus-visible:ring-2 focus-visible:ring-blue-700"
+            className="form-control max-w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-950 outline-none focus-visible:ring-2 focus-visible:ring-blue-700"
           >
             <option value="all">All statuses</option>
             {STATUS_OPTIONS.map((status) => (
@@ -84,7 +84,7 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
       ) : (
         <>
           <div className="mt-5 hidden min-w-0 md:block">
-            <table className="w-full table-fixed border-collapse text-left">
+            <table className="claim-table w-full table-fixed border-collapse text-left">
               <caption className="sr-only">Claims in this verification report</caption>
               <colgroup>
                 <col className="w-[29%]" />
@@ -95,7 +95,7 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
                 <col className="w-[11%]" />
               </colgroup>
               <thead>
-                <tr className="border-b border-slate-300 text-sm text-slate-700">
+                <tr className="claim-table__head border-b border-slate-300 text-sm text-slate-700">
                   <th scope="col" className="px-2 py-3 font-semibold">Claim</th>
                   <th scope="col" className="px-2 py-3 font-semibold">Status</th>
                   <th scope="col" className="px-2 py-3 font-semibold">Freshness</th>
@@ -112,7 +112,7 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
                   )
 
                   return (
-                    <tr key={claim.claim.id} className="border-b border-slate-200 last:border-0">
+                    <tr key={claim.claim.id} className="claim-row border-b border-slate-200 last:border-0">
                       <td className="break-words px-2 py-4 text-sm font-medium text-slate-950">
                         {claim.claim.text}
                       </td>
@@ -155,7 +155,7 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
               return (
                 <li
                   key={claim.claim.id}
-                  className="min-w-0 rounded-xl border border-slate-200 p-4"
+                  className="claim-card premium-inner min-w-0 p-4"
                 >
                   <h3 className="break-words text-sm font-semibold leading-6 text-slate-950">
                     {claim.claim.text}

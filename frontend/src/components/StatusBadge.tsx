@@ -59,7 +59,7 @@ function StatusIcon({ status }: StatusBadgeProps) {
 export function StatusBadge({ status }: StatusBadgeProps) {
   return (
     <span
-      className={`inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold ${badgeStyles[status]}`}
+      className={`status-pill inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold shadow-sm ${badgeStyles[status]}`}
     >
       <StatusIcon status={status} />
       <span>{status}</span>

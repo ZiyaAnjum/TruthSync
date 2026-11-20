@@ -57,7 +57,7 @@ export function SourceList({ claimReport }: SourceListProps) {
   return (
     <section
       aria-labelledby="sources-heading"
-      className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      className="premium-card min-w-0 p-5 sm:p-6"
     >
       <h2 id="sources-heading" className="text-xl font-bold text-slate-950">
         Sources
@@ -76,7 +76,7 @@ export function SourceList({ claimReport }: SourceListProps) {
             return (
               <li
                 key={`${evidence.claim_id}-${index}`}
-                className="min-w-0 rounded-xl border border-slate-200 p-4"
+                className="source-card premium-inner min-w-0 p-4"
               >
                 <p className="break-words text-base font-semibold leading-6 text-slate-950">
                   {isHttpUrl(evidence.url) ? (

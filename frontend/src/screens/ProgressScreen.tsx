@@ -19,7 +19,7 @@ function StateIcon({ state }: { state: 'waiting' | 'in progress' | 'done' | 'fai
     return (
       <svg viewBox="0 0 20 20" width="18" height="18" aria-hidden="true" fill="none">
         <circle cx="10" cy="10" r="8" stroke="currentColor" strokeWidth="2" />
-        <path d="m6.5 10 2.2 2.2 4.8-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+        <path className="stage-check" pathLength={1} d="m6.5 10 2.2 2.2 4.8-5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
       </svg>
     )
   }
@@ -79,7 +79,7 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
     <PageLayout>
       <section
         aria-labelledby="progress-heading"
-        className="mx-auto min-w-0 max-w-3xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
+        className="premium-card mx-auto min-w-0 max-w-3xl p-5 sm:p-7"
       >
         <p className="text-xs font-bold uppercase tracking-wide text-slate-500">
           Demo data (mock)
@@ -95,7 +95,7 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
         {status.stage === 'failed' && (
           <div
             role="alert"
-            className="mt-5 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-semibold text-red-950"
+            className="error-banner mt-5 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-sm font-semibold text-red-950"
           >
             {status.error}
           </div>
@@ -108,12 +108,14 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
             aria-valuemax={100}
             aria-valuenow={status.percent}
             aria-label="Verification progress"
-            className="h-3 w-full overflow-hidden rounded-full bg-slate-200"
+            className="progress-track h-3 w-full"
           >
             <div
-              className="h-full rounded-full bg-blue-700 transition-[width]"
-              style={{ width: `${status.percent}%` }}
-            />
+              className="progress-fill"
+              style={{ transform: `scaleX(${status.percent / 100})` }}
+            >
+              <span className="progress-shimmer" aria-hidden="true" />
+            </div>
           </div>
           <p className="mt-2 text-sm font-semibold text-slate-700">{status.percent}%</p>
         </div>
@@ -137,7 +139,9 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
             return (
               <li
                 key={stage.id}
-                className={`flex min-w-0 items-center justify-between gap-3 rounded-xl border px-4 py-3 ${stateStyle}`}
+                className={`stage-card flex min-w-0 items-center justify-between gap-3 rounded-xl border px-4 py-3 ${stateStyle} ${
+                  state === 'in progress' ? 'stage-active' : ''
+                }`}
               >
                 <span className="min-w-0 text-sm font-semibold">{stage.label}</span>
                 <span className="flex shrink-0 items-center gap-1.5 text-sm font-semibold">
@@ -157,7 +161,7 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
           <button
             type="button"
             onClick={onBack}
-            className="mt-6 w-full rounded-xl bg-blue-800 px-4 py-3 text-base font-bold text-white outline-none hover:bg-blue-900 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+            className="button-primary mt-6 w-full rounded-xl px-4 py-3 text-base font-bold outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
           >
             Back to Home
           </button>

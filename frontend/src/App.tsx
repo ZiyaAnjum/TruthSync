@@ -89,57 +89,65 @@ function App() {
 
   return (
     <>
-      <div className={screen === 'home' ? '' : 'hidden'}>
+      <div className={screen === 'home' ? 'screen-enter' : 'hidden'}>
         <HomeScreen onVerify={handleVerify} />
       </div>
 
       {screen === 'progress' && (
-        <ProgressScreen
-          status={status}
-          onCancel={returnToHome}
-          onBack={returnToHome}
-        />
+        <div key="progress" className="screen-enter">
+          <ProgressScreen
+            status={status}
+            onCancel={returnToHome}
+            onBack={returnToHome}
+          />
+        </div>
       )}
 
       {screen === 'report' && (
-        <ReportScreen
-          report={mockReport}
-          onSelectClaim={(claimId) => {
-            setSelectedClaimId(claimId)
-            setScreen('claim-detail')
-          }}
-          onBack={returnToHome}
-        />
+        <div key="report" className="screen-enter">
+          <ReportScreen
+            report={mockReport}
+            onSelectClaim={(claimId) => {
+              setSelectedClaimId(claimId)
+              setScreen('claim-detail')
+            }}
+            onBack={returnToHome}
+          />
+        </div>
       )}
 
       {screen === 'claim-detail' && selectedClaimReport && (
-        <ClaimDetailScreen
-          claimReport={selectedClaimReport}
-          onBack={() => setScreen('report')}
-        />
+        <div key="claim-detail" className="screen-enter">
+          <ClaimDetailScreen
+            claimReport={selectedClaimReport}
+            onBack={() => setScreen('report')}
+          />
+        </div>
       )}
 
       {screen === 'claim-detail' && !selectedClaimReport && (
-        <PageLayout>
-          <section
-            aria-labelledby="claim-detail-placeholder-heading"
-            className="mx-auto min-w-0 max-w-3xl rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-7"
-          >
-            <h1
-              id="claim-detail-placeholder-heading"
-              className="text-2xl font-bold text-slate-950"
+        <div className="screen-enter">
+          <PageLayout>
+            <section
+              aria-labelledby="claim-detail-placeholder-heading"
+              className="premium-card mx-auto min-w-0 max-w-3xl p-5 sm:p-7"
             >
-              Claim not found
-            </h1>
-            <button
-              type="button"
-              onClick={() => setScreen('report')}
-              className="mt-6 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-base font-bold text-slate-900 outline-none hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
-            >
-              Back
-            </button>
-          </section>
-        </PageLayout>
+              <h1
+                id="claim-detail-placeholder-heading"
+                className="text-2xl font-bold text-slate-950"
+              >
+                Claim not found
+              </h1>
+              <button
+                type="button"
+                onClick={() => setScreen('report')}
+                className="mt-6 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-base font-bold text-slate-900 outline-none hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+              >
+                Back
+              </button>
+            </section>
+          </PageLayout>
+        </div>
       )}
     </>
   )

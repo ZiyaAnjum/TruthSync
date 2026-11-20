@@ -46,7 +46,7 @@ export function RiskList({ risks, claims }: RiskListProps) {
   return (
     <section
       aria-labelledby="risks-heading"
-      className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+      className="premium-card report-fade-up min-w-0 p-5 sm:p-6"
     >
       <h2 id="risks-heading" className="text-xl font-bold text-slate-950">
         Risks
@@ -58,7 +58,7 @@ export function RiskList({ risks, claims }: RiskListProps) {
           {risks.map((risk) => (
             <li
               key={risk.id}
-              className="min-w-0 rounded-xl border border-slate-200 p-4"
+              className="risk-card premium-inner min-w-0 p-4"
             >
               <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
                 <SeverityIcon severity={risk.severity} />

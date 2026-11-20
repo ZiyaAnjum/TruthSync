@@ -42,24 +42,24 @@ export function ClaimDetailScreen({
   return (
     <PageLayout>
       <article className="mx-auto min-w-0 max-w-4xl">
-        <header className="mb-6 min-w-0">
-          <h1 className="break-words text-2xl font-bold leading-8 text-slate-950 sm:text-3xl">
+        <header className="detail-heading mb-6 min-w-0 rounded-2xl p-5 sm:p-7">
+          <h1 className="break-words text-2xl font-bold leading-8 text-white sm:text-3xl">
             {claimReport.claim.text}
           </h1>
-          <p className="mt-3 break-words text-sm leading-6 text-slate-700">
-            <span className="font-semibold">Original sentence:</span>{' '}
+          <p className="mt-3 break-words text-sm leading-6 text-white">
+            <span className="font-semibold text-white">Original sentence:</span>{' '}
             {claimReport.claim.original_sentence}
           </p>
         </header>
 
-        <div className="grid min-w-0 grid-cols-1 gap-6">
+        <div className="detail-sections grid min-w-0 grid-cols-1 gap-6">
           <TruthPassport claimReport={claimReport} />
 
           <SourceList claimReport={claimReport} />
 
           <section
             aria-labelledby="conflict-explanation-heading"
-            className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+            className="premium-card min-w-0 p-5 sm:p-6"
           >
             <h2
               id="conflict-explanation-heading"
@@ -77,7 +77,7 @@ export function ClaimDetailScreen({
                 {claimReport.conflict.stances.map((stance, index) => (
                   <li
                     key={`${stance.url}-${index}`}
-                    className="min-w-0 rounded-xl border border-slate-200 p-4"
+                    className="premium-inner min-w-0 p-4"
                   >
                     <p className="break-words text-sm leading-6 text-slate-800">
                       {stance.reason}
@@ -102,7 +102,7 @@ export function ClaimDetailScreen({
 
           <section
             aria-labelledby="truth-timeline-heading"
-            className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+            className="premium-card min-w-0 p-5 sm:p-6"
           >
             <h2 id="truth-timeline-heading" className="text-xl font-bold text-slate-950">
               Truth Timeline
@@ -115,11 +115,11 @@ export function ClaimDetailScreen({
                 Not enough dated evidence for a timeline
               </p>
             ) : (
-              <ol className="mt-4 space-y-3">
+              <ol className="timeline-list mt-4 space-y-3 pl-5">
                 {datedEvidence.map((evidence, index) => (
                   <li
                     key={`${evidence.claim_id}-${index}`}
-                    className="min-w-0 rounded-xl border border-slate-200 p-4"
+                    className="timeline-entry premium-inner min-w-0 p-4"
                   >
                     <p className="text-sm font-semibold text-slate-900">
                       {evidence.published_date}
@@ -154,7 +154,7 @@ export function ClaimDetailScreen({
 
           <section
             aria-labelledby="reality-reconstruction-heading"
-            className="min-w-0 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm sm:p-6"
+            className="premium-card min-w-0 p-5 sm:p-6"
           >
             <h2
               id="reality-reconstruction-heading"
