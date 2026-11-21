@@ -153,7 +153,10 @@ async function runPipelineTests() {
     verdict: "current", // corresponds to Supported (1.0 point)
   });
 
-  const mockRiskDetector = async (_claims: Claim[], _conflicts: ConflictResult[]): Promise<Risk[]> => [
+  const mockRiskDetector = async (
+    _answer: string,
+    _reports: { claim: Claim; conflict: ConflictResult; expiry: ExpiryPrediction }[]
+  ): Promise<Risk[]> => [
     {
       id: "r1",
       severity: "low",
@@ -164,8 +167,7 @@ async function runPipelineTests() {
 
   const mockCorrectionEngine = async (
     _original: string,
-    _claims: Claim[],
-    _conflicts: ConflictResult[]
+    _reports: { claim: Claim; conflict: ConflictResult; evidence: Evidence[] }[]
   ): Promise<Correction | null> => null;
 
   const report = await runVerificationPipeline(testId2, "The Galaxy S24 costs $799. It runs One UI 6.1.", {
