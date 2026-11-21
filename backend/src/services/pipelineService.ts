@@ -1,5 +1,6 @@
 import "../preload";
 import { callLLM } from "../../../shared/llm";
+import type { ClaimReportLike } from "../ai";
 import {
   AnalyzeRequest,
   Report,
@@ -49,11 +50,13 @@ export interface PipelineServices {
   evidenceRetriever?: (claimId: string, query: string) => Promise<Evidence[]>;
   expiryPredictor?: (claims: Claim[]) => Promise<ExpiryPrediction[]>;
   conflictDetector?: (claim: Claim, evidence: Evidence[]) => Promise<ConflictResult>;
-  riskDetector?: (claims: Claim[], conflicts: ConflictResult[]) => Promise<Risk[]>;
+  riskDetector?: (
+    answerText: string,
+    claimReports: { claim: Claim; conflict: ConflictResult; expiry: ExpiryPrediction }[]
+  ) => Promise<Risk[]>;
   correctionEngine?: (
     originalText: string,
-    claims: Claim[],
-    conflicts: ConflictResult[]
+    claimReports: ClaimReportLike[]
   ) => Promise<Correction | null>;
 }
 
@@ -199,17 +202,25 @@ export async function runVerificationPipeline(
   const conflicts = await Promise.all(conflictPromises);
   const conflictMap = new Map(conflicts.map((c) => [c.claim_id, c]));
 
+  // Intermediate claim reports for risk and correction engines (C-04, C-05)
+  const intermediateReports = claims.map((claim) => ({
+    claim,
+    conflict: conflictMap.get(claim.id)!,
+    expiry: expiryMap.get(claim.id)!,
+    evidence: evidenceMap.get(claim.id) || [],
+  }));
+
   // Step 6: Detecting Risks (C-04)
   await updateVerification(verificationId, {
     status: "detecting_risks",
   });
-  const risks = await services.riskDetector!(claims, conflicts);
+  const risks = await services.riskDetector!(validated.answer_text, intermediateReports);
 
   // Step 7: Generating Minimal Correction (C-05)
   await updateVerification(verificationId, {
     status: "correcting",
   });
-  const correction = await services.correctionEngine!(validated.answer_text, claims, conflicts);
+  const correction = await services.correctionEngine!(validated.answer_text, intermediateReports);
 
   // Step 8: Scoring (B-05) & Assembly of Truth Passport per claim
   const claimReports: ClaimReport[] = claims.map((claim) => {

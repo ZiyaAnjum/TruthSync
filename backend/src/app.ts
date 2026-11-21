@@ -3,6 +3,8 @@ import express, { Request, Response, NextFunction } from "express";
 import cors, { CorsOptions } from "cors";
 import evidenceRouter from "./routes/evidence";
 import verifyRouter from "./routes/verify";
+import timelineRouter from "./routes/timeline";
+import timeTravelRouter from "./routes/timeTravel";
 
 // Initialize Express app
 const app = express();
@@ -72,6 +74,8 @@ app.use("/api/evidence", evidenceRouter);
 
 // Verification and Pipeline endpoints (Task B-03 / FR-01, FR-09)
 app.use("/api", verifyRouter);
+app.use("/api/timeline", timelineRouter);
+app.use("/api/time-travel", timeTravelRouter);
 
 // 404 handler for unknown routes
 app.use((_req: Request, res: Response) => {
