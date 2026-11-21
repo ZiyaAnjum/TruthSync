@@ -5,11 +5,11 @@ type StatusBadgeProps = {
 }
 
 const badgeStyles: Record<DisplayStatus, string> = {
-  Supported: 'border border-green-700 bg-green-100 text-green-950',
-  Outdated: 'border border-red-700 bg-red-100 text-red-950',
-  Conflicting: 'border border-amber-700 bg-amber-100 text-amber-950',
-  'Insufficient Evidence': 'border border-slate-400 bg-slate-200 text-slate-950',
-  'Not Checked': 'border-2 border-dashed border-slate-600 bg-white text-slate-950',
+  Supported: 'status-pill--supported',
+  Outdated: 'status-pill--outdated',
+  Conflicting: 'status-pill--conflicting',
+  'Insufficient Evidence': 'status-pill--insufficient',
+  'Not Checked': 'status-pill--not-checked',
 }
 
 function StatusIcon({ status }: StatusBadgeProps) {
@@ -59,7 +59,7 @@ function StatusIcon({ status }: StatusBadgeProps) {
 export function StatusBadge({ status }: StatusBadgeProps) {
   return (
     <span
-      className={`status-pill inline-flex w-fit items-center gap-2 rounded-full px-3 py-1.5 text-sm font-semibold shadow-sm ${badgeStyles[status]}`}
+      className={`status-pill ${badgeStyles[status]}`}
     >
       <StatusIcon status={status} />
       <span>{status}</span>

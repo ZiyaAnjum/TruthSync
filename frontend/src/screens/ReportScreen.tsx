@@ -3,7 +3,9 @@ import { ClaimTable } from '../components/ClaimTable'
 import { CorrectedAnswer } from '../components/CorrectedAnswer'
 import { RiskList } from '../components/RiskList'
 import { ScoreRing } from '../components/ScoreRing'
+import { StatusBadge } from '../components/StatusBadge'
 import { isDemoMode } from '../lib/dataSource'
+import { verdictToStatus, type DisplayStatus } from '../lib/status'
 import type { Report } from '../../../shared/schemas'
 
 type ReportScreenProps = {
@@ -18,9 +20,23 @@ export function ReportScreen({
   onBack,
 }: ReportScreenProps) {
   const hasCheckableClaims = report.claims.some(({ claim }) => claim.checkable)
+  const statusOptions: DisplayStatus[] = [
+    'Supported',
+    'Outdated',
+    'Conflicting',
+    'Insufficient Evidence',
+    'Not Checked',
+  ]
+  const statusCounts = statusOptions.map((status) => ({
+    status,
+    count: report.claims.filter(
+      ({ claim, conflict }) =>
+        verdictToStatus(conflict.verdict, claim.checkable) === status,
+    ).length,
+  }))
 
   return (
-    <PageLayout>
+    <PageLayout step={3}>
       <section aria-labelledby="report-heading" className="min-w-0">
         <h1 id="report-heading" className="mb-6 text-2xl font-bold text-slate-950">
           Verification report
@@ -34,11 +50,11 @@ export function ReportScreen({
             Demo data (mock)
           </p>
         )}
-        <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)]">
-          <div className="premium-card report-score-card min-w-0 p-5 sm:p-7 lg:col-start-2 lg:row-start-1">
+        <div className="report-top-grid">
+          <div className="premium-card report-score-card min-w-0 p-5 sm:p-7">
             {hasCheckableClaims ? (
               <>
-                <p className="text-center text-sm font-semibold text-slate-700">
+                <p className="report-score-card__label text-sm">
                   Overall freshness score
                 </p>
                 <div className="mt-4">
@@ -51,18 +67,39 @@ export function ReportScreen({
               </p>
             )}
           </div>
+          <section
+            aria-labelledby="status-counts-heading"
+            className="premium-card min-w-0 p-5 sm:p-7"
+          >
+            <h2 id="status-counts-heading" className="text-xl font-bold text-slate-950">
+              Claims by status
+            </h2>
+            <ul className="status-counts mt-3">
+              {statusCounts.map(({ status, count }) => (
+                <li key={status} className="status-count">
+                  <StatusBadge status={status} />
+                  <span className="status-count__value" aria-label={`${count} claims`}>
+                    {count}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </div>
 
-          <div className="min-w-0 lg:col-start-1 lg:row-start-1">
-            <ClaimTable claims={report.claims} onSelect={onSelectClaim} />
-          </div>
+        <div className="mt-6 min-w-0">
+          <ClaimTable claims={report.claims} onSelect={onSelectClaim} />
+        </div>
 
-          <div className="min-w-0 lg:col-start-1 lg:row-start-2">
-            <RiskList risks={report.risks} claims={report.claims} />
-          </div>
+        <div className="mt-6 min-w-0">
+          <RiskList risks={report.risks} claims={report.claims} />
+        </div>
 
-          <div className="min-w-0 lg:col-start-2 lg:row-start-2">
-            <CorrectedAnswer correction={report.correction} />
-          </div>
+        <div className="mt-6 min-w-0">
+          <CorrectedAnswer
+            answerText={report.answer_text}
+            correction={report.correction}
+          />
         </div>
 
         <button

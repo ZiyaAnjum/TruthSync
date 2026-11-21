@@ -148,6 +148,7 @@ function App() {
         <div key="claim-detail" className="screen-enter">
           <ClaimDetailScreen
             claimReport={selectedClaimReport}
+            correction={report?.correction ?? null}
             onBack={() => setScreen('report')}
           />
         </div>

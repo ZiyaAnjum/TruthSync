@@ -2,7 +2,16 @@ import type { AnalysisStatus, ApiError, Report } from '../../../shared/schemas'
 import { getApiErrorMessage, getNetworkErrorMessage } from './errors'
 
 const pollIntervalMs = 2000
-const timeoutMs = 3 * 60 * 1000
+const estimateIntervalMs = 8000
+const timeoutMs = 4 * 60 * 1000
+// ESTIMATE: the backend does not stream progress.
+const estimatedUpdates: Array<Pick<AnalysisStatus, 'stage' | 'percent'>> = [
+  { stage: 'extracting_claims', percent: 15 },
+  { stage: 'retrieving_evidence', percent: 40 },
+  { stage: 'detecting_conflicts', percent: 65 },
+  { stage: 'correcting', percent: 85 },
+  { stage: 'correcting', percent: 95 },
+]
 const apiErrorCodes = new Set([
   'VALIDATION',
   'RATE_LIMIT',
@@ -22,8 +31,11 @@ type VerificationContext = {
   report: Report | null
   cancelled: boolean
   settled: boolean
+  postPending: boolean
   reportPending: boolean
   timedOut: boolean
+  estimateIndex: number
+  estimateTimer: number | undefined
   pollingTimer: number | undefined
   timeoutTimer: number | undefined
 }
@@ -89,11 +101,19 @@ async function readJson(response: Response): Promise<unknown> {
   }
 }
 
-function clearTimers(context: VerificationContext) {
+function clearPollingTimers(context: VerificationContext) {
+  if (context.estimateTimer !== undefined) {
+    window.clearTimeout(context.estimateTimer)
+    context.estimateTimer = undefined
+  }
   if (context.pollingTimer !== undefined) {
     window.clearTimeout(context.pollingTimer)
     context.pollingTimer = undefined
   }
+}
+
+function clearTimers(context: VerificationContext) {
+  clearPollingTimers(context)
   if (context.timeoutTimer !== undefined) {
     window.clearTimeout(context.timeoutTimer)
     context.timeoutTimer = undefined
@@ -106,6 +126,7 @@ function fail(context: VerificationContext, message: string) {
   }
 
   context.settled = true
+  context.postPending = false
   clearTimers(context)
   context.onUpdate({
     id: context.verificationId ?? '',
@@ -143,6 +164,51 @@ async function fetchResponse(
 
 function isActive(context: VerificationContext) {
   return !context.cancelled && !context.settled
+}
+
+function scheduleEstimate(context: VerificationContext) {
+  if (
+    !isActive(context) ||
+    !context.postPending ||
+    context.estimateIndex >= estimatedUpdates.length
+  ) {
+    return
+  }
+
+  context.estimateTimer = window.setTimeout(() => {
+    context.estimateTimer = undefined
+    if (!isActive(context) || !context.postPending) {
+      return
+    }
+
+    const update = estimatedUpdates[context.estimateIndex]
+    context.estimateIndex += 1
+    context.onUpdate({
+      id: context.verificationId ?? '',
+      ...update,
+      error: null,
+    })
+    scheduleEstimate(context)
+  }, estimateIntervalMs)
+}
+
+function finishWithReport(context: VerificationContext, report: Report) {
+  if (!isActive(context)) {
+    return
+  }
+
+  context.report = report
+  context.verificationId = report.id
+  context.postPending = false
+  context.reportPending = false
+  context.settled = true
+  clearTimers(context)
+  context.onUpdate({
+    id: report.id,
+    stage: 'done',
+    percent: 100,
+    error: null,
+  })
 }
 
 function schedulePoll(context: VerificationContext) {
@@ -187,17 +253,7 @@ async function pollVerification(context: VerificationContext) {
     return
   }
   if (isReport(body)) {
-    context.report = body
-    context.verificationId = body.id
-    context.reportPending = false
-    context.settled = true
-    clearTimers(context)
-    context.onUpdate({
-      id: body.id,
-      stage: 'done',
-      percent: 100,
-      error: null,
-    })
+    finishWithReport(context, body)
     return
   }
   if (!isAnalysisStatus(body)) {
@@ -205,20 +261,28 @@ async function pollVerification(context: VerificationContext) {
     return
   }
 
-  context.onUpdate(body)
-  if (body.stage === 'done' || body.stage === 'failed' || body.stage === 'cancelled') {
-    context.reportPending = body.stage === 'done'
+  if (body.stage === 'failed') {
+    fail(context, getApiErrorMessage('INTERNAL'))
+    return
+  }
+  context.onUpdate({ ...body, error: null })
+  if (body.stage === 'done') {
+    context.postPending = false
+    context.reportPending = true
     context.settled = true
-    if (!context.reportPending) {
-      clearTimers(context)
-    }
+    clearPollingTimers(context)
+    return
+  }
+  if (body.stage === 'cancelled') {
+    context.postPending = false
+    context.settled = true
+    clearTimers(context)
     return
   }
   schedulePoll(context)
 }
 
 async function submitVerification(context: VerificationContext, answerText: string) {
-  // ASSUMPTION (verify with Eifa at integration): POST /api/verify accepts answer_text and returns JSON containing a string id.
   const response = await fetchResponse(context, `${baseUrl}/api/verify`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -242,12 +306,29 @@ async function submitVerification(context: VerificationContext, answerText: stri
     fail(context, getApiErrorMessage(body.error.code))
     return
   }
-  if (!isRecord(body) || typeof body.id !== 'string' || body.id.length === 0) {
+  context.postPending = false
+  if (context.estimateTimer !== undefined) {
+    window.clearTimeout(context.estimateTimer)
+    context.estimateTimer = undefined
+  }
+  if (isReport(body)) {
+    finishWithReport(context, body)
+    return
+  }
+  if (
+    !isRecord(body) ||
+    typeof body.id !== 'string' ||
+    body.id.length === 0
+  ) {
     fail(context, getApiErrorMessage('INTERNAL'))
     return
   }
 
   context.verificationId = body.id
+  if (Array.isArray(body.claims)) {
+    fail(context, getApiErrorMessage('INTERNAL'))
+    return
+  }
   schedulePoll(context)
 }
 
@@ -262,30 +343,39 @@ export function startVerification(
     report: null,
     cancelled: false,
     settled: false,
+    postPending: true,
     reportPending: false,
     timedOut: false,
+    estimateIndex: 0,
+    estimateTimer: undefined,
     pollingTimer: undefined,
     timeoutTimer: undefined,
   }
   latestVerification = context
 
-  // ASSUMPTION (verify with Eifa at integration): polling is every 2 seconds and verification has a 3-minute overall limit.
+  context.onUpdate({
+    id: '',
+    stage: 'queued',
+    percent: 0,
+    error: null,
+  })
+  scheduleEstimate(context)
+
   context.timeoutTimer = window.setTimeout(() => {
     if (context.cancelled || context.report || context.timedOut) {
       return
     }
     context.settled = true
     context.timedOut = true
+    context.postPending = false
     clearTimers(context)
     context.controller.abort()
-    if (!context.reportPending) {
-      context.onUpdate({
-        id: context.verificationId ?? '',
-        stage: 'failed',
-        percent: 0,
-        error: getApiErrorMessage('TIMEOUT'),
-      })
-    }
+    context.onUpdate({
+      id: context.verificationId ?? '',
+      stage: 'failed',
+      percent: 0,
+      error: getApiErrorMessage('TIMEOUT'),
+    })
   }, timeoutMs)
 
   void submitVerification(context, answerText)
@@ -295,6 +385,8 @@ export function startVerification(
       return
     }
     context.cancelled = true
+    context.settled = true
+    context.postPending = false
     clearTimers(context)
     context.controller.abort()
   }

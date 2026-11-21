@@ -120,10 +120,14 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
                         <StatusBadge status={status} />
                       </td>
                       <td className="break-words px-2 py-4 text-sm font-semibold text-slate-950">
-                        {claim.score.freshness_score} / 100
+                        <span className="metric-tile inline-block">
+                          {claim.score.freshness_score} / 100
+                        </span>
                       </td>
                       <td className="break-words px-2 py-4 text-sm font-semibold text-slate-950">
-                        {claim.score.confidence} / 100
+                        <span className="metric-tile inline-block">
+                          {claim.score.confidence} / 100
+                        </span>
                       </td>
                       <td className="break-words px-2 py-4">
                         <ExpiryDetails claim={claim} />
@@ -133,7 +137,7 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
                           type="button"
                           onClick={() => onSelect(claim.claim.id)}
                           aria-label={`View details for claim: ${claim.claim.text}`}
-                          className="rounded-lg border border-blue-800 px-2 py-2 text-sm font-semibold text-blue-900 outline-none hover:bg-blue-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+                          className="button-secondary rounded-lg px-2 py-2 text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
                         >
                           View details
                         </button>
@@ -167,13 +171,13 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
                     </div>
                     <div className="min-w-0 break-words">
                       <dt className="text-xs font-semibold text-slate-600">Freshness</dt>
-                      <dd className="mt-1 text-sm font-semibold text-slate-950">
+                      <dd className="metric-tile mt-1 text-sm font-semibold text-slate-950">
                         {claim.score.freshness_score} / 100
                       </dd>
                     </div>
                     <div className="min-w-0 break-words">
                       <dt className="text-xs font-semibold text-slate-600">Confidence</dt>
-                      <dd className="mt-1 text-sm font-semibold text-slate-950">
+                      <dd className="metric-tile mt-1 text-sm font-semibold text-slate-950">
                         {claim.score.confidence} / 100
                       </dd>
                     </div>
@@ -186,7 +190,7 @@ export function ClaimTable({ claims, onSelect }: ClaimTableProps) {
                     type="button"
                     onClick={() => onSelect(claim.claim.id)}
                     aria-label={`View details for claim: ${claim.claim.text}`}
-                    className="mt-4 rounded-lg border border-blue-800 px-3 py-2 text-sm font-semibold text-blue-900 outline-none hover:bg-blue-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+                    className="button-secondary mt-4 rounded-lg px-3 py-2 text-sm font-semibold outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
                   >
                     View details
                   </button>

@@ -1,11 +1,15 @@
 import { useId, type ReactNode } from 'react'
+import { isDemoMode } from '../lib/dataSource'
+import { BrandMark } from './BrandMark'
+import { Stepper } from './Stepper'
 
 type PageLayoutProps = {
   children: ReactNode
   side?: ReactNode
+  step?: 1 | 2 | 3
 }
 
-export function PageLayout({ children, side }: PageLayoutProps) {
+export function PageLayout({ children, side, step = 1 }: PageLayoutProps) {
   const mainContentId = `main-content-${useId().replace(/:/g, '')}`
 
   return (
@@ -17,18 +21,29 @@ export function PageLayout({ children, side }: PageLayoutProps) {
         Skip to main content
       </a>
       <header className="site-header">
-        <div className="site-header__content mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-7 lg:px-8">
-          <p className="text-xl font-bold tracking-tight text-white sm:text-2xl">TruthSync</p>
-          <p className="mt-1 text-sm text-white">
-            Verify what AI says. Stay in sync with reality.
+        <div className="site-header__content mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="brand-lockup">
+            <BrandMark />
+            <div className="brand-lockup__copy">
+              <p className="brand-lockup__name">TruthSync</p>
+              <p className="brand-lockup__tagline hidden min-[640px]:block">
+                Verify what AI says. Stay in sync with reality.
+              </p>
+            </div>
+          </div>
+          <p className="mode-pill">
+            <span className="mode-pill__dot" aria-hidden="true" />
+            {isDemoMode ? 'Demo mode' : 'Live'}
           </p>
         </div>
       </header>
 
+      <Stepper step={step} />
+
       <main
         id={mainContentId}
         tabIndex={-1}
-        className="site-main mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10 lg:px-8"
+        className="site-main screen-enter mx-auto max-w-7xl px-4 sm:px-6 lg:px-8"
       >
         {side ? (
           <div className="grid min-w-0 grid-cols-1 gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(18rem,1fr)]">
@@ -41,7 +56,7 @@ export function PageLayout({ children, side }: PageLayoutProps) {
       </main>
       <footer className="site-footer border-t">
         <div className="site-footer__content mx-auto max-w-7xl px-4 py-5 sm:px-6 lg:px-8">
-          <p className="text-sm font-semibold tracking-wide text-slate-600">TruthSync</p>
+          <p>TruthSync | SheBuilds | Global AI Hackathon 2026</p>
         </div>
       </footer>
     </div>

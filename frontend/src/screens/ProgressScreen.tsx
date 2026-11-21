@@ -72,7 +72,7 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
           : 'Verification queued'
 
   return (
-    <PageLayout>
+    <PageLayout step={2}>
       <section
         aria-labelledby="progress-heading"
         className="premium-card mx-auto min-w-0 max-w-3xl p-5 sm:p-7"
@@ -85,6 +85,12 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
         <h1 id="progress-heading" className="mt-2 text-2xl font-bold text-slate-950">
           Checking your answer
         </h1>
+
+        {!isDemoMode && (
+          <p className="mt-2 text-sm leading-6 text-slate-700">
+            Live check in progress. Stages shown are an estimate; your report appears when the server finishes. The first request can take a little longer.
+          </p>
+        )}
 
         <p aria-live="polite" className="mt-2 text-sm text-slate-600">
           {liveMessage}
@@ -119,29 +125,30 @@ export function ProgressScreen({ status, onCancel, onBack }: ProgressScreenProps
         </div>
 
         <ol className="mt-6 grid grid-cols-1 gap-3">
-          {DISPLAY_STAGES.map((stage) => {
+          {DISPLAY_STAGES.map((stage, index) => {
             const state = getDisplayStageState(
               stage.id,
               status,
               lastActiveStage,
             )
-            const stateStyle =
-              state === 'done'
-                ? 'border-green-300 bg-green-50 text-green-950'
-                : state === 'failed'
-                  ? 'border-red-300 bg-red-50 text-red-950'
-                  : state === 'in progress'
-                    ? 'border-blue-300 bg-blue-50 text-blue-950'
-                    : 'border-slate-200 bg-slate-50 text-slate-700'
+            const stageClass =
+              state === 'in progress'
+                ? 'stage-card--active'
+                : state === 'done'
+                  ? 'stage-card--done'
+                  : state === 'failed'
+                    ? 'stage-card--failed'
+                    : ''
 
             return (
               <li
                 key={stage.id}
-                className={`stage-card flex min-w-0 items-center justify-between gap-3 rounded-xl border px-4 py-3 ${stateStyle} ${
-                  state === 'in progress' ? 'stage-active' : ''
-                }`}
+                className={`stage-card flex min-w-0 items-center justify-between gap-3 rounded-xl border px-4 py-3 ${stageClass}`}
               >
-                <span className="min-w-0 text-sm font-semibold">{stage.label}</span>
+                <span className="flex min-w-0 items-center gap-3 text-sm font-semibold">
+                  <span className="stage-number" aria-hidden="true">{index + 1}</span>
+                  <span>{stage.label}</span>
+                </span>
                 <span className="flex shrink-0 items-center gap-1.5 text-sm font-semibold">
                   <StateIcon state={state} />
                   <span>

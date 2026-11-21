@@ -60,7 +60,7 @@ export function RiskList({ risks, claims }: RiskListProps) {
               key={risk.id}
               className="risk-card premium-inner min-w-0 p-4"
             >
-              <div className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+              <div className={`severity-chip severity-chip--${risk.severity} text-sm font-semibold`}>
                 <SeverityIcon severity={risk.severity} />
                 <span>{severityLabels[risk.severity]}</span>
               </div>

@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import type { Correction } from '../../../shared/schemas'
 
 type CorrectedAnswerProps = {
+  answerText: string
   correction: Correction | null
 }
 
@@ -45,7 +46,7 @@ function findHighlights(text: string, correction: Correction): Highlight[] {
   return highlights.sort((left, right) => left.start - right.start)
 }
 
-export function CorrectedAnswer({ correction }: CorrectedAnswerProps) {
+export function CorrectedAnswer({ answerText, correction }: CorrectedAnswerProps) {
   const [copyState, setCopyState] = useState<'idle' | 'copied' | 'failed'>('idle')
   const copyTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -87,96 +88,111 @@ export function CorrectedAnswer({ correction }: CorrectedAnswerProps) {
   const highlights = correction ? findHighlights(correction.corrected_text, correction) : []
 
   return (
-    <section
-      aria-labelledby="corrected-answer-heading"
-      className="premium-card report-fade-up min-w-0 p-5 sm:p-6"
-    >
-      <h2 id="corrected-answer-heading" className="text-xl font-bold text-slate-950">
-        Corrected answer
-      </h2>
-      {correction === null ? (
-        <p className="mt-4 text-sm text-slate-700">No corrections were needed.</p>
-      ) : (
-        <>
-          <p className="mt-4 break-words whitespace-pre-wrap text-sm leading-6 text-slate-900">
-            {(() => {
-              const parts: ReactNode[] = []
-              let cursor = 0
-
-              highlights.forEach((highlight, index) => {
-                parts.push(correction.corrected_text.slice(cursor, highlight.start))
-                parts.push(
-                  <mark
-                    key={`${highlight.start}-${index}`}
-                    className="answer-change-mark font-semibold underline decoration-2 underline-offset-2"
-                  >
-                    {highlight.newSpan}
-                    <span className="sr-only">
-                      {' '}(changed from: {highlight.originalSpan})
-                    </span>
-                  </mark>,
-                )
-                cursor = highlight.end
-              })
-
-              parts.push(correction.corrected_text.slice(cursor))
-              return parts
-            })()}
+    <div className="answer-pair min-w-0">
+      <section
+        aria-labelledby="original-answer-heading"
+        className="original-answer-card min-w-0 p-5 sm:p-6"
+      >
+        <h2 id="original-answer-heading" className="text-xl font-bold text-slate-950">
+          Original AI answer
+        </h2>
+        <p className="mt-4 break-words whitespace-pre-wrap text-sm leading-6 text-slate-900">
+          {answerText}
+        </p>
+      </section>
+      <section
+        aria-labelledby="corrected-answer-heading"
+        className="corrected-answer-card report-fade-up min-w-0 p-5 sm:p-6"
+      >
+        <h2 id="corrected-answer-heading" className="text-xl font-bold text-white">
+          Corrected answer
+        </h2>
+        {correction === null ? (
+          <p className="corrected-answer-card__text mt-4 text-sm">
+            No corrections were needed.
           </p>
+        ) : (
+          <>
+            <p className="corrected-answer-card__text mt-4 break-words whitespace-pre-wrap text-sm leading-6">
+              {(() => {
+                const parts: ReactNode[] = []
+                let cursor = 0
 
-          <h3 className="mt-5 text-sm font-bold text-slate-950">Changes</h3>
-          <ul className="mt-2 space-y-3">
-            {correction.changes.map((change, index) => (
-              <li
-                key={`${change.claim_id}-${index}`}
-                className="premium-inner min-w-0 break-words p-3 text-sm leading-6 text-slate-900"
-              >
-                <p>
-                  <span>{change.original_span}</span>
-                  <span className="mx-2" aria-label="changed to">→</span>
-                  <span>{change.new_span}</span>
-                </p>
-                <p className="mt-1">
-                  Source:{' '}
-                  {change.source_url.startsWith('http://') ||
-                  change.source_url.startsWith('https://') ? (
-                    <a
-                      href={change.source_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="break-all font-semibold text-blue-900 underline underline-offset-2"
+                highlights.forEach((highlight, index) => {
+                  parts.push(correction.corrected_text.slice(cursor, highlight.start))
+                  parts.push(
+                    <mark
+                      key={`${highlight.start}-${index}`}
+                      className="answer-change-mark font-semibold underline decoration-2 underline-offset-2"
                     >
-                      Source
-                    </a>
-                  ) : (
-                    <span className="break-all">{change.source_url}</span>
-                  )}
-                </p>
-              </li>
-            ))}
-          </ul>
+                      {highlight.newSpan}
+                      <span className="sr-only">
+                        {' '}(changed from: {highlight.originalSpan})
+                      </span>
+                    </mark>,
+                  )
+                  cursor = highlight.end
+                })
 
-          <button
-            type="button"
-            onClick={() => copyCorrectedAnswer(correction.corrected_text)}
-            className="button-primary mt-5 w-full rounded-xl px-4 py-3 text-base font-bold outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
-          >
-            Copy corrected answer
-          </button>
-          <p
-            aria-live="polite"
-            className={`copy-feedback mt-2 min-h-5 text-sm font-semibold text-slate-800 ${
-              copyState === 'copied' ? 'copy-feedback--copied' : ''
-            }`}
-          >
-            {copyState === 'copied'
-              ? 'Copied'
-              : copyState === 'failed'
-                ? 'Copy failed. Select the text and copy it manually.'
-                : ''}
-          </p>
-        </>
-      )}
-    </section>
+                parts.push(correction.corrected_text.slice(cursor))
+                return parts
+              })()}
+            </p>
+
+            <h3 className="mt-5 text-sm font-bold text-white">Changes</h3>
+            <ul className="mt-2 space-y-3">
+              {correction.changes.map((change, index) => (
+                <li
+                  key={`${change.claim_id}-${index}`}
+                  className="premium-inner min-w-0 break-words p-3 text-sm leading-6 text-slate-900"
+                >
+                  <p>
+                    <span>{change.original_span}</span>
+                    <span className="mx-2" aria-label="changed to">→</span>
+                    <span>{change.new_span}</span>
+                  </p>
+                  <p className="mt-1">
+                    Source:{' '}
+                    {change.source_url.startsWith('http://') ||
+                    change.source_url.startsWith('https://') ? (
+                      <a
+                        href={change.source_url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="break-all font-semibold text-blue-900 underline underline-offset-2"
+                      >
+                        Source
+                      </a>
+                    ) : (
+                      <span className="break-all">{change.source_url}</span>
+                    )}
+                  </p>
+                </li>
+              ))}
+            </ul>
+
+            <button
+              type="button"
+              onClick={() => copyCorrectedAnswer(correction.corrected_text)}
+              className="button-primary mt-5 w-full rounded-xl px-4 py-3 text-base font-bold outline-none focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
+            >
+              Copy corrected answer
+            </button>
+            <p
+              aria-live="polite"
+              className={`copy-feedback mt-2 min-h-5 text-sm font-semibold ${
+                copyState === 'copied' ? 'copy-feedback--copied' : ''
+              }`}
+            >
+              {copyState === 'copied'
+                ? 'Copied'
+                : copyState === 'failed'
+                  ? 'Copy failed. Select the text and copy it manually.'
+                  : ''}
+            </p>
+          </>
+        )}
+      </section>
+    </div>
   )
 }

@@ -1,11 +1,15 @@
 import { PageLayout } from '../components/PageLayout'
+import { RealityReconstruction } from '../components/RealityReconstruction'
 import { SourceList } from '../components/SourceList'
+import { StatusBadge } from '../components/StatusBadge'
 import { TruthPassport } from '../components/TruthPassport'
 import { isDemoMode } from '../lib/dataSource'
-import type { ClaimReport } from '../../../shared/schemas'
+import { verdictToStatus } from '../lib/status'
+import type { ClaimReport, Correction } from '../../../shared/schemas'
 
 type ClaimDetailScreenProps = {
   claimReport: ClaimReport
+  correction: Correction | null
   onBack: () => void
 }
 
@@ -32,8 +36,13 @@ function SourceUrl({ url }: { url: string }) {
 
 export function ClaimDetailScreen({
   claimReport,
+  correction,
   onBack,
 }: ClaimDetailScreenProps) {
+  const status = verdictToStatus(
+    claimReport.conflict.verdict,
+    claimReport.claim.checkable,
+  )
   const datedEvidence = claimReport.evidence
     .filter((evidence) => evidence.published_date !== null)
     .sort((left, right) =>
@@ -41,7 +50,7 @@ export function ClaimDetailScreen({
     )
 
   return (
-    <PageLayout>
+    <PageLayout step={3}>
       <article className="mx-auto min-w-0 max-w-4xl">
         {isDemoMode && (
           <p className="mb-4 inline-flex items-center gap-2 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm font-semibold text-slate-800">
@@ -52,14 +61,24 @@ export function ClaimDetailScreen({
             Demo data (mock)
           </p>
         )}
-        <header className="detail-heading mb-6 min-w-0 rounded-2xl p-5 sm:p-7">
-          <h1 className="break-words text-2xl font-bold leading-8 text-white sm:text-3xl">
-            {claimReport.claim.text}
-          </h1>
-          <p className="mt-3 break-words text-sm leading-6 text-white">
+        <header className="detail-heading mb-6 min-w-0 p-5 sm:p-7">
+          <div className="flex min-w-0 flex-wrap items-start justify-between gap-4">
+            <h1 className="detail-heading__title min-w-0 flex-1 break-words text-2xl font-bold leading-8 sm:text-3xl">
+              {claimReport.claim.text}
+            </h1>
+            <StatusBadge status={status} />
+          </div>
+          <p className="detail-heading__text mt-3 break-words text-sm leading-6">
             <span className="font-semibold text-white">Original sentence:</span>{' '}
             {claimReport.claim.original_sentence}
           </p>
+          <button
+            type="button"
+            onClick={onBack}
+            className="detail-back-button mt-5 rounded-xl border px-4 py-2.5 text-sm font-bold outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
+          >
+            Back to report
+          </button>
         </header>
 
         <div className="detail-sections grid min-w-0 grid-cols-1 gap-6">
@@ -162,30 +181,11 @@ export function ClaimDetailScreen({
             )}
           </section>
 
-          <section
-            aria-labelledby="reality-reconstruction-heading"
-            className="premium-card min-w-0 p-5 sm:p-6"
-          >
-            <h2
-              id="reality-reconstruction-heading"
-              className="text-xl font-bold text-slate-950"
-            >
-              Reality Reconstruction
-            </h2>
-            {/* TEMPORARY. Replace when the schema carries reconstruction text. */}
-            <p className="mt-4 break-words text-sm leading-6 text-slate-800">
-              Not available yet. This needs data that is not in the shared report format.
-            </p>
-          </section>
+          <RealityReconstruction
+            claimReport={claimReport}
+            correction={correction}
+          />
         </div>
-
-        <button
-          type="button"
-          onClick={onBack}
-          className="mt-6 w-full rounded-xl border border-slate-300 bg-white px-4 py-3 text-base font-bold text-slate-900 outline-none hover:bg-slate-50 focus-visible:ring-2 focus-visible:ring-blue-700 focus-visible:ring-offset-2"
-        >
-          Back to report
-        </button>
       </article>
     </PageLayout>
   )
