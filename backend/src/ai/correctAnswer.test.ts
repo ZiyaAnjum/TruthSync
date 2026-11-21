@@ -5,6 +5,8 @@ import {
   applyChanges,
   ClaimReportLike,
   correctAnswer,
+  filterGroundedChanges,
+  normalizeText,
 } from "./correctAnswer";
 import { Change, Evidence } from "../../../shared/schemas";
 
@@ -146,6 +148,127 @@ function runUnitTests(): void {
     assert.strictEqual(result?.changes.length, 1, "Only first non-overlapping span kept");
     assert.strictEqual(result?.corrected_text, "The Model 3 base starts at $38,990 today.");
     console.log("✔ Test 4 Passed: Overlapping spans handled correctly (first kept)");
+  }
+
+  // Test 5: Grounding filters
+  // (a) a change whose new_span is not in the snippet is dropped
+  // (b) an empty new_span is dropped
+  // (c) a valid grounded change still applies
+  // (d) curly-apostrophe text matches
+  {
+    // (a) Not in snippet dropped
+    const ungroundedChanges: ChangeType[] = [
+      {
+        claim_id: "c-ceo",
+        original_span: "Parag Agrawal",
+        new_span: "Satya Nadella", // Not in BBC snippet about Linda Yaccarino
+        source_url: "https://www.bbc.com/news/business-65814580",
+      },
+    ];
+    const filteredA = filterGroundedChanges(ungroundedChanges, reports);
+    assert.strictEqual(filteredA.length, 0, "Change whose new_span is not in the snippet must be dropped");
+    console.log("✔ Test 5a Passed: Change whose new_span is not in snippet is dropped");
+
+    // (b) Empty new_span after trimming dropped
+    const emptyChanges: ChangeType[] = [
+      {
+        claim_id: "c-ceo",
+        original_span: "Parag Agrawal",
+        new_span: "   ",
+        source_url: "https://www.bbc.com/news/business-65814580",
+      },
+    ];
+    const filteredB = filterGroundedChanges(emptyChanges, reports);
+    assert.strictEqual(filteredB.length, 0, "Empty new_span must be dropped");
+    console.log("✔ Test 5b Passed: Empty new_span is dropped");
+
+    // (c) Valid grounded change still applies
+    const groundedChanges: ChangeType[] = [
+      {
+        claim_id: "c-ceo",
+        original_span: "Parag Agrawal",
+        new_span: "Linda Yaccarino", // Exactly in BBC snippet
+        source_url: "https://www.bbc.com/news/business-65814580",
+      },
+    ];
+    const filteredC = filterGroundedChanges(groundedChanges, reports);
+    assert.strictEqual(filteredC.length, 1, "Valid grounded change must be kept");
+    const resultC = applyChanges(sampleAnswer, filteredC, reports);
+    assert.ok(resultC !== null);
+    assert.ok(resultC?.corrected_text.includes("Linda Yaccarino"));
+    console.log("✔ Test 5c Passed: Valid grounded change applies successfully");
+
+    // (d) Curly-apostrophe and quote normalization matches
+    const reportsWithCurly: ClaimReportLike[] = [
+      {
+        claim: claimOutdatedCeo,
+        conflict: {
+          claim_id: claimOutdatedCeo.id,
+          stances: [],
+          conflict_found: true,
+          newest_supporting_date: null,
+          verdict: "outdated",
+        },
+        evidence: [
+          {
+            claim_id: "c-ceo",
+            url: "https://example.com/curly",
+            title: "Twitter’s Leadership", // Curly apostrophe \u2019
+            snippet: "The company’s new chief is Linda Yaccarino.", // Curly apostrophe \u2019
+            published_date: "2023-06-05",
+            retrieved_at: "2026-11-19T10:00:00Z",
+          },
+        ],
+      },
+    ];
+
+    // Case d1: new_span has straight quote, snippet has curly quote
+    const straightSpan: ChangeType[] = [
+      {
+        claim_id: "c-ceo",
+        original_span: "Parag Agrawal",
+        new_span: "company's new chief", // straight apostrophe
+        source_url: "https://example.com/curly",
+      },
+    ];
+    const filteredD1 = filterGroundedChanges(straightSpan, reportsWithCurly);
+    assert.strictEqual(filteredD1.length, 1, "Straight quote in new_span should match curly quote in snippet");
+
+    // Case d2: new_span has curly quote, snippet has straight quote
+    const reportsWithStraight: ClaimReportLike[] = [
+      {
+        claim: claimOutdatedCeo,
+        conflict: {
+          claim_id: claimOutdatedCeo.id,
+          stances: [],
+          conflict_found: true,
+          newest_supporting_date: null,
+          verdict: "outdated",
+        },
+        evidence: [
+          {
+            claim_id: "c-ceo",
+            url: "https://example.com/straight",
+            title: "Twitter's Leadership", // Straight apostrophe '
+            snippet: "The company's new chief is Linda Yaccarino.", // Straight apostrophe '
+            published_date: "2023-06-05",
+            retrieved_at: "2026-11-19T10:00:00Z",
+          },
+        ],
+      },
+    ];
+    const curlyOnStraight: ChangeType[] = [
+      {
+        claim_id: "c-ceo",
+        original_span: "Parag Agrawal",
+        new_span: "company’s new chief", // curly apostrophe
+        source_url: "https://example.com/straight",
+      },
+    ];
+    const filteredD2 = filterGroundedChanges(curlyOnStraight, reportsWithStraight);
+    assert.strictEqual(filteredD2.length, 1, "Curly quote in new_span should match straight quote in snippet");
+
+    console.log("✔ Test 5d Passed: Curly-apostrophe and quote normalization matches seamlessly");
   }
 
   console.log("\nAll correctAnswer unit tests passed!\n");
