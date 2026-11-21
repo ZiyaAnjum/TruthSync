@@ -40,6 +40,50 @@ function loadCorrectAnswerPrompt(): string {
 }
 
 /**
+ * Normalizes text for grounding comparisons:
+ * - Replaces curly single quotes and apostrophes with standard ASCII single quote
+ * - Replaces curly double quotes with standard ASCII double quote
+ * - Collapses consecutive whitespace into a single space
+ * - Trims leading and trailing whitespace
+ * - Converts to lowercase
+ */
+export function normalizeText(text: string): string {
+  return text
+    .replace(/[\u2018\u2019\u201A\u201B\u2032]/g, "'")
+    .replace(/[\u201C\u201D\u201E\u201F\u2033]/g, '"')
+    .replace(/\s+/g, " ")
+    .trim()
+    .toLowerCase();
+}
+
+/**
+ * Filters out changes whose new_span:
+ * - is empty after trimming
+ * - does not appear (case-insensitively, with quote/whitespace normalization) in the cited evidence snippet or title
+ */
+export function filterGroundedChanges(
+  rawChanges: ChangeType[],
+  claimReports: ClaimReportLike[]
+): ChangeType[] {
+  return rawChanges.filter((ch) => {
+    const trimmedNewSpan = ch.new_span.trim();
+    if (!trimmedNewSpan) {
+      return false;
+    }
+
+    const report = claimReports.find((r) => r.claim.id === ch.claim_id);
+    const ev = report?.evidence.find((e) => e.url === ch.source_url);
+    if (!ev) {
+      return false;
+    }
+
+    const normalizedSource = normalizeText(`${ev.snippet} ${ev.title}`);
+    const normalizedNewSpan = normalizeText(trimmedNewSpan);
+    return normalizedSource.includes(normalizedNewSpan);
+  });
+}
+
+/**
  * Applies surgical changes to answerText in code:
  * - original_span must appear exactly once in answerText (else dropped).
  * - source_url must match an evidence URL for that claim (else dropped).
@@ -166,5 +210,7 @@ export async function correctAnswer(
     schema: CorrectionLLMOutput,
   });
 
-  return applyChanges(answerText, output.changes, claimReports);
+  const groundedChanges = filterGroundedChanges(output.changes, claimsNeedingCorrection);
+
+  return applyChanges(answerText, groundedChanges, claimReports);
 }

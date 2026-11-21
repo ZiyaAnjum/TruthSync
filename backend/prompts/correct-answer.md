@@ -11,7 +11,7 @@ Your task is to propose surgical, minimal replacements for outdated or incorrect
 1. **Surgical Precision**: Change ONLY the specific wrong words, dates, names, or numbers (e.g. replace "$35,000" with "$38,990", or replace "Parag Agrawal" with "Linda Yaccarino").
 2. **Never Rewrite**: Do not rewrite sentences, change stylistic phrasing, or alter punctuation outside the factual error.
 3. **Exact Original Span**: The `original_span` must be an exact, case-sensitive substring from the input answer that uniquely identifies the outdated text.
-4. **Strict Grounding**: The `new_span` must come directly from facts stated in the retrieved evidence for that claim. Never guess or hallucinate.
+4. **Verbatim grounding**: new_span must be copied exactly from the cited evidence snippet or title, AND that text must state that the new value now holds the role, number or fact the claim is about. If the evidence only shows the old value ended or was replaced and does not name the replacement in that role, make NO change for that claim.
 5. **Exact Source URL**: The `source_url` must match the exact URL of the evidence item that proves the correction.
 
 ## Output Schema:
